@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Registro Aspirante - UD</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</h:head>
+
+<h:body>
+<div class="container mt-4">
+    <h2 class="mb-4">Formulario de Registro - Aspirante Universitario</h2>
+
+    <h:form styleClass="row g-3">
+
+        <!-- Identificacion -->
+        <div class="col-md-6">
+            <h:outputLabel for="id_p" value="No. Identificacion:" styleClass="form-label"/>
+            <h:inputText id="id_p" value="#{asp.dto.id_p}"
+                         styleClass="form-control"
+                         required="true"
+                         requiredMessage="La identificacion es obligatoria.">
+                <f:validateLongRange minimum="1"/>
+                <f:ajax event="blur" render="id_p_msg"/>
+            </h:inputText>
+            <h:message for="id_p" styleClass="text-danger small" id="id_p_msg"/>
+        </div>
+
+        <!-- Nombres -->
+        <div class="col-md-6">
+            <h:outputLabel for="nombres" value="Nombres:" styleClass="form-label"/>
+            <h:inputText id="nombres" value="#{asp.dto.nombres}"
+                         styleClass="form-control"
+                         required="true"
+                         requiredMessage="Los nombres son obligatorios.">
+                <f:validateLength minimum="2" maximum="60"/>
+                <f:ajax event="blur" render="nombres_msg"/>
+            </h:inputText>
+            <h:message for="nombres" styleClass="text-danger small" id="nombres_msg"/>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="col-md-6">
+            <h:outputLabel for="apellidos" value="Apellidos:" styleClass="form-label"/>
+            <h:inputText id="apellidos" value="#{asp.dto.apellidos}"
+                         styleClass="form-control"
+                         required="true"
+                         requiredMessage="Los apellidos son obligatorios.">
+                <f:validateLength minimum="2" maximum="60"/>
+                <f:ajax event="blur" render="apellidos_msg"/>
+            </h:inputText>
+            <h:message for="apellidos" styleClass="text-danger small" id="apellidos_msg"/>
+        </div>
+
+        <!-- Correo -->
+        <div class="col-md-6">
+            <h:outputLabel for="correo" value="Correo Electronico:" styleClass="form-label"/>
+            <h:inputText id="correo" value="#{asp.dto.correo}"
+                         styleClass="form-control"
+                         required="true"
+                         requiredMessage="El correo es obligatorio.">
+                <f:validateRegex pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"/>
+                <f:ajax event="blur" render="correo_msg"/>
+            </h:inputText>
+            <h:message for="correo" styleClass="text-danger small" id="correo_msg"/>
+        </div>
+
+        <!-- Telefono -->
+        <div class="col-md-6">
+            <h:outputLabel for="telefono" value="Telefono:" styleClass="form-label"/>
+            <h:inputText id="telefono" value="#{asp.dto.telefono}"
+                         styleClass="form-control"
+                         required="true"
+                         requiredMessage="El telefono es obligatorio.">
+                <f:validateRegex pattern="^\d{7,10}$"/>
+                <f:ajax event="blur" render="telefono_msg"/>
+            </h:inputText>
+            <h:message for="telefono" styleClass="text-danger small" id="telefono_msg"/>
+        </div>
+
+        <!-- Programa Academico -->
+        <div class="col-md-6">
+            <h:outputLabel for="pro_aca" value="Programa Academico:" styleClass="form-label"/>
+            <h:selectOneMenu id="pro_aca" value="#{asp.dto.pro_acad.cod}"
+                             styleClass="form-select"
+                             required="true"
+                             requiredMessage="Seleccione un programa academico.">
+                <f:selectItem itemValue="-1" itemLabel="-- Seleccione --" noSelectionOption="true"/>
+                <f:selectItems value="#{asp.listaPa}" var="p"
+                               itemValue="#{p.cod}"
+                               itemLabel="#{p.nombre_prog}"/>
+            </h:selectOneMenu>
+            <h:message for="pro_aca" styleClass="text-danger small"/>
+        </div>
+
+        <!-- Boton -->
+        <div class="col-12">
+            <h:commandButton value="Registrar" action="#{asp.registrar}"
+                             styleClass="btn btn-primary">
+                <f:ajax execute="@form" render="@form"/>
+            </h:commandButton>
+        </div>
+
+        <!-- Mensaje resultado -->
+        <div class="col-12">
+            <h:outputText value="#{asp.mensaje}" styleClass="text-success fw-bold"
+                          rendered="#{not empty asp.mensaje}"/>
+        </div>
+
+        <!-- Enlace a vista admin -->
+        <div class="col-12 mt-2">
+            <a href="admin.xhtml" class="btn btn-outline-secondary btn-sm">
+                Ver listado de aspirantes registrados
+            </a>
+        </div>
+
+    </h:form>
+</div>
+
+<footer class="bg-light text-center py-3 mt-5 border-top">
+    <p class="mb-0">Kevin Garzon | Programacion Avanzada | Universidad Distrital | 2026</p>
+</footer>
+</h:body>
+</html>

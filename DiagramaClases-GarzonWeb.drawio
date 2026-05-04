@@ -1,0 +1,99 @@
+<mxGraphModel>
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- ===== Persona ===== -->
+    <mxCell id="2" value="&lt;b&gt;Persona&lt;/b&gt;&lt;br&gt;&lt;i&gt;&amp;laquo;abstract&amp;raquo; Serializable&lt;/i&gt;" style="swimlane;startSize=40;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="260" y="20" width="240" height="160" as="geometry"/>
+    </mxCell>
+    <mxCell id="3" value="- id_p : long&#xa;- nombres : String&#xa;- apellidos : String&#xa;- telefono : String&#xa;- correo : String&#xa;&#xa;+ getters / setters&#xa;+ hashCode() / equals()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="2">
+      <mxGeometry x="0" y="40" width="240" height="120" as="geometry"/>
+    </mxCell>
+
+    <!-- ===== Aspirante ===== -->
+    <mxCell id="4" value="&lt;b&gt;Aspirante&lt;/b&gt;&lt;br&gt;extends Persona · Serializable" style="swimlane;startSize=40;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="200" y="280" width="300" height="190" as="geometry"/>
+    </mxCell>
+    <mxCell id="5" value="- fecha_reg : LocalDate&#xa;- pro_acad : ProgAcad&#xa;&#xa;+ getFecha_reg() / setFecha_reg()&#xa;+ getPro_acad() / setPro_acad()&#xa;+ toString() : String&#xa;+ hashCode() / equals()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="4">
+      <mxGeometry x="0" y="40" width="300" height="150" as="geometry"/>
+    </mxCell>
+
+    <!-- ===== ProgAcad ===== -->
+    <mxCell id="6" value="&lt;b&gt;ProgAcad&lt;/b&gt;&lt;br&gt;Serializable" style="swimlane;startSize=40;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="530" y="280" width="230" height="170" as="geometry"/>
+    </mxCell>
+    <mxCell id="7" value="- cod : int&#xa;- nombre_prog : String&#xa;&#xa;+ getCod() / setCod()&#xa;+ getNombre_prog() / set()&#xa;+ toString() : String&#xa;+ hashCode() / equals()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="6">
+      <mxGeometry x="0" y="40" width="230" height="130" as="geometry"/>
+    </mxCell>
+
+    <!-- ===== AspiranteDAO ===== -->
+    <mxCell id="8" value="&lt;b&gt;AspiranteDAO&lt;/b&gt;" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="20" y="280" width="170" height="90" as="geometry"/>
+    </mxCell>
+    <mxCell id="9" value="+ lista_A : ArrayList&lt;Aspirante&gt; {static}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="8">
+      <mxGeometry x="0" y="30" width="170" height="60" as="geometry"/>
+    </mxCell>
+
+    <!-- ===== ProgAcadDAO ===== -->
+    <mxCell id="10" value="&lt;b&gt;ProgAcadDAO&lt;/b&gt;" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="20" y="410" width="170" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="11" value="+ lista_P : ArrayList&lt;ProgAcad&gt; {static}&#xa;&#xa;+ cargaDatos() : void {static}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="10">
+      <mxGeometry x="0" y="30" width="170" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- ===== AspiranteBean ===== -->
+    <mxCell id="12" value="&lt;b&gt;AspiranteBean&lt;/b&gt;&lt;br&gt;&lt;font color='#185FA5'&gt;@Named(&quot;asp&quot;) · @SessionScoped&lt;/font&gt;" style="swimlane;startSize=50;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#003082;" vertex="1" parent="1">
+      <mxGeometry x="200" y="520" width="300" height="200" as="geometry"/>
+    </mxCell>
+    <mxCell id="13" value="- dto : Aspirante&#xa;- listaAs : ArrayList&lt;Aspirante&gt;&#xa;- listaPa : ArrayList&lt;ProgAcad&gt;&#xa;- mensaje : String&#xa;&#xa;+ getDto() / setDto()&#xa;+ getListaAs() / setListaAs()&#xa;+ getListaPa() / setListaPa()&#xa;+ getMensaje() / setMensaje()&#xa;+ registrar() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="12">
+      <mxGeometry x="0" y="50" width="300" height="150" as="geometry"/>
+    </mxCell>
+
+    <!-- ===== RELACIONES ===== -->
+
+    <!-- Herencia: Aspirante -> Persona (flecha con triangulo abierto) -->
+    <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=0;startArrow=none;strokeColor=#666666;" edge="1" source="4" target="2" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="21" value="extends" style="edgeLabel;fontSize=11;align=center;verticalAlign=bottom;" vertex="1" connectable="0" parent="20">
+      <mxGeometry relative="0.5" as="geometry"/>
+    </mxCell>
+
+    <!-- Asociacion: Aspirante -> ProgAcad -->
+    <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#666666;" edge="1" source="4" target="6" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="23" value="1" style="edgeLabel;fontSize=11;" vertex="1" connectable="0" parent="22">
+      <mxGeometry relative="0.8" as="geometry"/>
+    </mxCell>
+
+    <!-- Dependencia: AspiranteBean -> AspiranteDAO -->
+    <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#6c8ebf;" edge="1" source="12" target="8" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="25" value="&lt;&lt;usa&gt;&gt;" style="edgeLabel;fontSize=11;fontColor=#6c8ebf;" vertex="1" connectable="0" parent="24">
+      <mxGeometry relative="0.5" as="geometry"/>
+    </mxCell>
+
+    <!-- Dependencia: AspiranteBean -> ProgAcadDAO -->
+    <mxCell id="26" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#6c8ebf;" edge="1" source="12" target="10" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="27" value="&lt;&lt;usa&gt;&gt;" style="edgeLabel;fontSize=11;fontColor=#6c8ebf;" vertex="1" connectable="0" parent="26">
+      <mxGeometry relative="0.5" as="geometry"/>
+    </mxCell>
+
+    <!-- Dependencia: AspiranteDAO -> Aspirante -->
+    <mxCell id="28" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#666666;" edge="1" source="8" target="4" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Dependencia: ProgAcadDAO -> ProgAcad -->
+    <mxCell id="29" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#666666;" edge="1" source="10" target="6" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

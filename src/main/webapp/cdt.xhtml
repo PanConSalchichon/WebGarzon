@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Simulador CDT</title>
+</h:head>
+<h:body>
+	<h:form>
+	<h2>Datos para el simulador</h2>
+	<h:outputLabel for="inversion" value="Inversión:" />
+         <h:inputText id="inversion" value="#{cdt.inversion}" required="true" >
+            <f:convertNumber maxFractionDigits="2" />
+    </h:inputText>
+    <br/><br/>
+     <h:outputLabel for="interes" value="Interés (% E.A.):" />
+            <h:inputText id="interes" value="#{cdt.interes}" required="true" />
+            <br/><br/>
+
+            <h:outputLabel for="plazo" value="Plazo (días):" />
+            <h:inputText id="plazo" value="#{cdt.plazo}" required="true" />
+            <br/><br/>
+
+            <h:commandButton value="Calcular Ganancia" action="#{cdt.calcular}"  >
+                <f:ajax execute="@form" render="@form" />
+            </h:commandButton>
+            <br/><br/>
+
+            <h:panelGroup rendered="#{cdt.ganancia > 0}">
+                <h:outputText value="Valor Ganacia: "></h:outputText>
+
+                <h:outputText value="#{cdt.ganancia}">
+                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" groupingUsed="true" />
+                </h:outputText>
+                <br/>
+                <h:outputText value="Valor final al vencimiento: "></h:outputText>
+                <h:outputText value="#{cdt.valorFuturo - cdt.impuesto}">
+                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" groupingUsed="true" />
+                </h:outputText>
+                <br/>
+                <h:outputText value="Valor impuesto 4%: "></h:outputText>
+                <h:outputText value="#{cdt.impuesto}">
+                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" groupingUsed="true" />
+                </h:outputText>
+                   <br/>
+                <h:outputText value="Ganancia despues de impuestos: "></h:outputText>
+                <h:outputText value="#{cdt.ganancia - cdt.impuesto}">
+                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" groupingUsed="true" />
+                </h:outputText>
+
+            </h:panelGroup>       
+            
+	</h:form>
+	<footer>
+		<a href="index.xhtml">Inicio</a>
+		<br/><br/><br/><br/>
+		<h4>Ing. Noé Arcos Muñoz  -  narcosm@udistrital.edu.co  -  2026  -  Programación</h4>
+	</footer>
+</h:body>
+</html>
