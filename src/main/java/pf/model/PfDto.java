@@ -1,7 +1,7 @@
 // Autor: Kevin Garzon y Thomas Diaz
 // Asignatura: Programacion Avanzada - 301
 // Universidad Distrital Francisco Jose de Caldas - 2026
-package pf.modelo;
+package pf.model;
 
 import java.io.Serializable;
 
