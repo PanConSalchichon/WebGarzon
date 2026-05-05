@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    Autores: Kevin Garzon y Thomas Diaz
+    Asignatura: Programacion Avanzada - 301
+    Universidad Distrital Francisco Jose de Caldas - 2026
+
+    Componentes PrimeFaces utilizados (6):
+      1. p:inputText          - Campo de texto enriquecido con validacion ajax
+      2. p:inputNumber        - Campo numerico con formato y limites
+      3. p:selectOneMenu      - Lista desplegable de una sola seleccion
+      4. p:selectBooleanCheckbox - Casilla de verificacion booleana
+      5. p:inputTextarea      - Area de texto multilinea con autoResize
+      6. p:dataTable          - Tabla de datos dinamica con columnas y filas
+
+    Referencia: https://showcase.primefaces.org
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Registro de Libros - PrimeFaces</title>
+    <style>
+        body { background-color: #f0f4f8; font-family: Arial, sans-serif; margin: 0; }
+        .pf-card {
+            background: white; border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            padding: 2rem; margin: 2rem auto; max-width: 750px;
+        }
+        .pf-header {
+            background: #003366; color: white;
+            border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem;
+        }
+        .campo-bloque { margin-bottom: 1.4rem; }
+        .campo-bloque label {
+            display: block; font-weight: bold;
+            margin-bottom: 0.4rem; color: #333;
+        }
+        .doc-atributos {
+            background: #f8f9fa; border-left: 4px solid #0066cc;
+            padding: 8px 12px; margin-top: 6px;
+            font-size: 0.78rem; color: #555; border-radius: 0 4px 4px 0;
+        }
+        .doc-atributos b { color: #003366; }
+        .msg-ok  { color: #2e7d32; font-weight: bold; margin-top: 0.8rem; }
+        .msg-err { color: #c0392b; font-weight: bold; margin-top: 0.8rem; }
+        .tabla-seccion { margin-top: 2.5rem; }
+        footer { background:#003366; color:#cce0ff; text-align:center; padding:1rem; margin-top:2rem; }
+        .navbar { background:#003366; padding:0.8rem 1.5rem; color:white;
+                  display:flex; justify-content:space-between; align-items:center; }
+        .navbar a { color:#cce0ff; text-decoration:none; border:1px solid #cce0ff;
+                    padding:4px 12px; border-radius:4px; }
+    </style>
+</h:head>
+
+<h:body>
+
+    <div class="navbar">
+        <span style="font-size:1.1rem; font-weight:bold;">Universidad Distrital - Registro de Libros</span>
+        <a href="index.xhtml">Inicio</a>
+    </div>
+
+    <div class="pf-card">
+        <div class="pf-header">
+            <h2 style="margin:0;">Formulario de Registro de Libros</h2>
+            <p style="margin:4px 0 0 0; opacity:0.85;">Ingrese los datos del libro a registrar en la biblioteca</p>
+        </div>
+
+        <h:form id="frmPf">
+
+            <!--
+                COMPONENTE 1: p:inputText
+                Referencia: https://showcase.primefaces.org/ui/input/inputText
+                Descripcion: Campo de texto de una sola linea. Extiende h:inputText
+                con soporte nativo para AJAX, estilos PrimeFaces y accesibilidad.
+
+                Atributos usados:
+                  id              -> Identificador unico del componente en el formulario.
+                  value           -> Expresion EL que enlaza el valor con la propiedad del Bean.
+                  required        -> Marca el campo como obligatorio; JSF lanza error si esta vacio.
+                  requiredMessage -> Mensaje personalizado que se muestra si el campo esta vacio.
+                  placeholder     -> Texto de ayuda visible cuando el campo no tiene valor.
+                  style           -> Estilos CSS aplicados directamente al input.
+            -->
+            <div class="campo-bloque">
+                <label for="titulo">Titulo del libro:</label>
+                <p:inputText
+                    id="titulo"
+                    value="#{pf.dto.titulo}"
+                    required="true"
+                    requiredMessage="El titulo es obligatorio."
+                    placeholder="Ej: Cien anos de soledad"
+                    style="width:100%; padding:8px;">
+                    <p:ajax event="blur" update="titulo_msg"/>
+                </p:inputText>
+                <p:message for="titulo" id="titulo_msg" style="color:#c0392b; font-size:0.85rem;"/>
+                <div class="doc-atributos">
+                    <b>p:inputText</b> |
+                    <b>value</b>: enlaza con #{pf.dto.titulo} en el Bean |
+                    <b>required</b>: campo obligatorio, JSF valida antes de procesar |
+                    <b>placeholder</b>: texto guia visible cuando el campo esta vacio |
+                    <b>p:ajax event="blur"</b>: valida el campo al perder el foco sin recargar la pagina
+                </div>
+            </div>
+
+            <!--
+                COMPONENTE 2: p:inputNumber
+                Referencia: https://showcase.primefaces.org/ui/input/inputNumber
+                Descripcion: Campo numerico especializado con soporte para rangos,
+                decimales, prefijos, sufijos y formato automatico. Usa la libreria
+                AutoNumeric internamente. Ideal para cantidades y medidas.
+
+                Atributos usados:
+                  id          -> Identificador unico del componente.
+                  value       -> Propiedad numerica del Bean (int o double).
+                  minValue    -> Valor minimo permitido; rechaza entradas menores.
+                  maxValue    -> Valor maximo permitido; rechaza entradas mayores.
+                  decimalPlaces -> Numero de decimales a mostrar (0 = entero).
+                  suffix      -> Texto que se muestra al final del valor (unidad).
+                  style       -> Estilos CSS del campo.
+            -->
+            <div class="campo-bloque">
+                <label for="paginas">Numero de paginas:</label>
+                <p:inputNumber
+                    id="paginas"
+                    value="#{pf.dto.paginas}"
+                    minValue="1"
+                    maxValue="9999"
+                    decimalPlaces="0"
+                    suffix=" pags."
+                    style="width:100%;">
+                </p:inputNumber>
+                <div class="doc-atributos">
+                    <b>p:inputNumber</b> |
+                    <b>minValue / maxValue</b>: limita el rango de valores aceptados (1 a 9999) |
+                    <b>decimalPlaces="0"</b>: solo acepta numeros enteros |
+                    <b>suffix</b>: agrega texto fijo al final del valor mostrado
+                </div>
+            </div>
+
+            <!--
+                COMPONENTE 3: p:selectOneMenu
+                Referencia: https://showcase.primefaces.org/ui/input/oneMenu
+                Descripcion: Lista desplegable de seleccion unica con estilos
+                PrimeFaces. Soporta filtrado integrado, grupos de opciones y AJAX.
+                Equivalente enriquecido de h:selectOneMenu.
+
+                Atributos usados:
+                  id              -> Identificador del componente.
+                  value           -> Propiedad String del Bean donde se guarda la seleccion.
+                  required        -> Obliga al usuario a seleccionar una opcion valida.
+                  requiredMessage -> Mensaje si no se hace ninguna seleccion.
+                  style           -> Ancho y estilos visuales del componente.
+                  filter          -> Activa un campo de busqueda dentro del menu desplegable.
+            -->
+            <div class="campo-bloque">
+                <label for="genero">Genero literario:</label>
+                <p:selectOneMenu
+                    id="genero"
+                    value="#{pf.dto.genero}"
+                    required="true"
+                    requiredMessage="Seleccione un genero literario."
+                    style="width:100%;"
+                    filter="true">
+                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" noSelectionOption="true"/>
+                    <f:selectItems value="#{pf.generosLiterarios}" var="g"
+                                   itemValue="#{g}" itemLabel="#{g}"/>
+                </p:selectOneMenu>
+                <div class="doc-atributos">
+                    <b>p:selectOneMenu</b> |
+                    <b>filter="true"</b>: agrega campo de busqueda para filtrar las opciones |
+                    <b>f:selectItem noSelectionOption</b>: opcion inicial no valida para forzar seleccion |
+                    <b>f:selectItems</b>: genera las opciones dinamicamente desde la lista del Bean
+                </div>
+            </div>
+
+            <!--
+                COMPONENTE 4: p:selectBooleanCheckbox
+                Referencia: https://showcase.primefaces.org/ui/input/booleanCheckbox
+                Descripcion: Casilla de verificacion que enlaza directamente con
+                una propiedad booleana del Bean. Tiene estilos propios de PrimeFaces
+                y soporta AJAX para reaccionar al cambio de estado.
+
+                Atributos usados:
+                  id       -> Identificador del componente.
+                  value    -> Propiedad boolean del Bean (true = marcado, false = desmarcado).
+                  itemLabel -> Texto visible junto a la casilla de verificacion.
+                  style    -> Estilos del contenedor del componente.
+            -->
+            <div class="campo-bloque" style="display:flex; align-items:center; gap:0.8rem;">
+                <label style="margin:0;">Disponible para prestamo:</label>
+                <p:selectBooleanCheckbox
+                    id="disponible"
+                    value="#{pf.dto.disponible}"
+                    itemLabel="Si, disponible"
+                    style="margin-left:0.5rem;">
+                </p:selectBooleanCheckbox>
+            </div>
+            <div class="doc-atributos" style="margin-bottom:1.4rem;">
+                <b>p:selectBooleanCheckbox</b> |
+                <b>value</b>: enlaza directamente con boolean en el DTO |
+                <b>itemLabel</b>: texto que aparece al lado de la casilla |
+                Cuando esta marcado guarda true, cuando no guarda false
+            </div>
+
+            <!--
+                COMPONENTE 5: p:inputTextarea
+                Referencia: https://showcase.primefaces.org/ui/input/inputTextarea
+                Descripcion: Area de texto multilinea con funcionalidades extra como
+                crecimiento automatico (autoResize), contador de caracteres y
+                placeholder. Extiende h:inputTextarea con estilos PrimeFaces.
+
+                Atributos usados:
+                  id          -> Identificador del componente.
+                  value       -> Propiedad String del Bean para el texto largo.
+                  rows        -> Numero de filas visibles al cargar el componente.
+                  maxlength   -> Limite maximo de caracteres que puede ingresar el usuario.
+                  autoResize  -> Si es true el area crece automaticamente con el contenido.
+                  placeholder -> Texto guia visible cuando el area esta vacia.
+                  style       -> Estilos CSS del componente.
+            -->
+            <div class="campo-bloque">
+                <label for="sinopsis">Sinopsis del libro:</label>
+                <p:inputTextarea
+                    id="sinopsis"
+                    value="#{pf.dto.sinopsis}"
+                    rows="4"
+                    maxlength="400"
+                    autoResize="true"
+                    placeholder="Escriba una breve descripcion del contenido del libro..."
+                    style="width:100%;">
+                </p:inputTextarea>
+                <div class="doc-atributos">
+                    <b>p:inputTextarea</b> |
+                    <b>rows</b>: altura inicial visible del area de texto (4 filas) |
+                    <b>maxlength</b>: maximo 400 caracteres permitidos |
+                    <b>autoResize</b>: el area se expande sola al escribir mas contenido |
+                    <b>placeholder</b>: texto de ayuda visible cuando el area esta vacia
+                </div>
+            </div>
+
+            <!-- Botones de accion -->
+            <div style="display:flex; gap:1rem; margin-top:0.5rem;">
+                <p:commandButton
+                    value="Registrar libro"
+                    action="#{pf.registrar}"
+                    update="frmPf"
+                    icon="pi pi-save"
+                    styleClass="ui-button-success"/>
+                <p:commandButton
+                    value="Limpiar"
+                    action="#{pf.limpiar}"
+                    update="frmPf"
+                    immediate="true"
+                    icon="pi pi-refresh"
+                    styleClass="ui-button-secondary"/>
+            </div>
+
+            <!-- Mensaje de resultado -->
+            <h:panelGroup rendered="#{not empty pf.mensaje}">
+                <div class="#{pf.mensaje.startsWith('Libro') ? 'msg-ok' : 'msg-err'}">
+                    <h:outputText value="#{pf.mensaje}"/>
+                </div>
+            </h:panelGroup>
+
+            <!--
+                COMPONENTE 6: p:dataTable
+                Referencia: https://showcase.primefaces.org/ui/data/datatable
+                Descripcion: Tabla de datos dinamica y enriquecida. Soporta
+                paginacion, ordenamiento por columna, filtros, seleccion de filas,
+                y estilos alternados. Es uno de los componentes mas completos de PrimeFaces.
+
+                Atributos usados:
+                  id          -> Identificador unico de la tabla.
+                  value       -> Lista del Bean que alimenta las filas de la tabla.
+                  var         -> Nombre de la variable de iteracion por cada fila.
+                  style       -> Estilos CSS del contenedor de la tabla.
+                  paginator   -> Activa la paginacion automatica de las filas.
+                  rows        -> Numero de filas visibles por pagina.
+                  stripedRows -> Alterna el color de fondo entre filas para facilitar lectura.
+                  emptyMessage -> Texto mostrado cuando la lista esta vacia.
+            -->
+            <div class="tabla-seccion">
+                <h3 style="color:#003366; border-bottom:2px solid #003366; padding-bottom:0.4rem;">
+                    Libros Registrados
+                </h3>
+                <p:dataTable
+                    id="tablaLibros"
+                    value="#{pf.listaLibros}"
+                    var="libro"
+                    style="width:100%;"
+                    paginator="true"
+                    rows="5"
+                    stripedRows="true"
+                    emptyMessage="No hay libros registrados aun.">
+
+                    <p:column headerText="Titulo">
+                        <h:outputText value="#{libro.titulo}"/>
+                    </p:column>
+                    <p:column headerText="Paginas" style="text-align:center; width:90px;">
+                        <h:outputText value="#{libro.paginas}"/>
+                    </p:column>
+                    <p:column headerText="Genero" style="width:150px;">
+                        <h:outputText value="#{libro.genero}"/>
+                    </p:column>
+                    <p:column headerText="Disponible" style="text-align:center; width:100px;">
+                        <h:outputText value="Si" rendered="#{libro.disponible}"/>
+                        <h:outputText value="No" rendered="#{!libro.disponible}"/>
+                    </p:column>
+                    <p:column headerText="Sinopsis">
+                        <h:outputText value="#{libro.sinopsis}"/>
+                    </p:column>
+                </p:dataTable>
+                <div class="doc-atributos" style="margin-top:8px;">
+                    <b>p:dataTable</b> |
+                    <b>value</b>: lista de PfDto del Bean que genera las filas |
+                    <b>var</b>: variable "libro" disponible en cada columna |
+                    <b>paginator="true"</b>: divide las filas en paginas automaticamente |
+                    <b>rows</b>: maximo 5 libros visibles por pagina |
+                    <b>stripedRows</b>: alterna color de fondo para facilitar la lectura |
+                    <b>emptyMessage</b>: texto que aparece cuando la lista esta vacia
+                </div>
+            </div>
+
+        </h:form>
+    </div>
+
+    <footer>
+        <small>
+            Kevin Garzon y Thomas Diaz | Programacion Avanzada - 301
+            | Universidad Distrital Francisco Jose de Caldas | 2026
+        </small>
+    </footer>
+
+</h:body>
+</html>
