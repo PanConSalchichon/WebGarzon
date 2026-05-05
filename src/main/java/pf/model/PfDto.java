@@ -1,4 +1,4 @@
-// Autor: Kevin Garzon y Thomas Diaz
+// Autores: Kevin Garzon y Thomas Diaz
 // Asignatura: Programacion Avanzada - 301
 // Universidad Distrital Francisco Jose de Caldas - 2026
 package pf.model;
