@@ -30,7 +30,7 @@ public class AspiranteBean implements Serializable {
 
     // --- Getters y Setters ---
 
-    public Aspirante getDto() { return dto; }           // <-- ESTE ES EL QUE FALTABA
+    public Aspirante getDto() { return dto; }           
     public void setDto(Aspirante dto) { this.dto = dto; }
 
     public ArrayList<Aspirante> getListaAs() { return listaAs; }
