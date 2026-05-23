@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Conversor COP - USD</title>
+</h:head>
+
+<h:body>
+
+    <h:form id="formConversor">
+
+        <p:panel header="Conversor de Divisas COP - USD">
+
+            <p:messages id="mensajes" showDetail="true" closable="true"/>
+
+            <p:panelGrid columns="2" style="width:100%">
+
+                <h:outputLabel for="monto" value="Monto a convertir:"/>
+                <p:inputNumber id="monto"
+                               value="#{conversionBean.monto}"
+                               minValue="0.01"
+                               decimalPlaces="2"
+                               thousandSeparator=","
+                               decimalSeparator="."
+                               placeholder="Ingrese el monto"
+                               required="true"
+                               requiredMessage="El monto es obligatorio">
+                    <f:validateRequired/>
+                </p:inputNumber>
+
+                <h:outputLabel for="divisa" value="Convertir de:"/>
+                <p:selectOneMenu id="divisa"
+                                 value="#{conversionBean.divisaOrigen}">
+                    <f:selectItems value="#{conversionBean.divisasDisponibles}"
+                                   var="d"
+                                   itemLabel="#{d}"
+                                   itemValue="#{d}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel value="Divisa destino:"/>
+                <h:outputText value="#{conversionBean.divisaDestinoLabel}"
+                              style="font-weight:bold;"/>
+
+                <h:outputLabel value="Tasa de cambio:"/>
+                <h:outputText value="1 USD = #{conversionBean.tasaActual} COP"/>
+
+            </p:panelGrid>
+
+            <p:separator/>
+
+            <p:commandButton value="Convertir"
+                             icon="pi pi-refresh"
+                             action="#{conversionBean.convertir}"
+                             update="panelResultado panelHistorial mensajes"/>
+
+        </p:panel>
+
+        <p:separator/>
+
+        <p:outputPanel id="panelResultado">
+            <p:panel header="Resultado" rendered="#{conversionBean.ultimaConversion != null}">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Monto origen:"/>
+                    <h:outputText value="#{conversionBean.ultimaConversion.divisaOrigen} #{conversionBean.ultimaConversion.montoOrigen}">
+                        <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+
+                    <h:outputLabel value="Resultado:"/>
+                    <h:outputText value="#{conversionBean.ultimaConversion.divisaDestino} #{conversionBean.ultimaConversion.montoDestino}">
+                        <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+
+                    <h:outputLabel value="Tasa aplicada:"/>
+                    <h:outputText value="1 USD = #{conversionBean.ultimaConversion.tasaAplicada} COP"/>
+                </p:panelGrid>
+            </p:panel>
+        </p:outputPanel>
+
+        <p:separator/>
+
+        <p:outputPanel id="panelHistorial">
+            <p:panel header="Ultimas 5 conversiones de la sesion"
+                     rendered="#{not empty conversionBean.historial}">
+                <p:dataTable value="#{conversionBean.historial}" var="conv">
+                    <p:column headerText="Hora">
+                        <h:outputText value="#{conv.fechaHora}">
+                            <f:convertDateTime pattern="HH:mm:ss"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Origen">
+                        <h:outputText value="#{conv.divisaOrigen} #{conv.montoOrigen}">
+                            <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Resultado">
+                        <h:outputText value="#{conv.divisaDestino} #{conv.montoDestino}">
+                            <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Tasa">
+                        <h:outputText value="#{conv.tasaAplicada}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </p:outputPanel>
+
+    </h:form>
+
+</h:body>
+</html>
