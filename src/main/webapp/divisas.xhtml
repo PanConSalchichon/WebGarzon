@@ -41,10 +41,12 @@
                                    var="d"
                                    itemLabel="#{d}"
                                    itemValue="#{d}"/>
+                    <p:ajax update="divisaDestino"/>
                 </p:selectOneMenu>
 
                 <h:outputLabel value="Divisa destino:"/>
-                <h:outputText value="#{conversionBean.divisaDestinoLabel}"
+                <h:outputText id="divisaDestino"
+                              value="#{conversionBean.divisaDestinoLabel}"
                               style="font-weight:bold;"/>
 
                 <h:outputLabel value="Tasa de cambio:"/>
@@ -57,7 +59,12 @@
             <p:commandButton value="Convertir"
                              icon="pi pi-refresh"
                              action="#{conversionBean.convertir}"
-                             update="panelResultado panelHistorial mensajes"/>
+                             update="panelResultado panelHistorial mensajes"
+                             style="margin-right:8px;"/>
+
+            <h:outputLink value="index.html" style="margin-left:8px;">
+                <p:button value="Volver al Menu" icon="pi pi-home" type="button"/>
+            </h:outputLink>
 
         </p:panel>
 
@@ -66,18 +73,26 @@
         <p:outputPanel id="panelResultado">
             <p:panel header="Resultado" rendered="#{conversionBean.ultimaConversion != null}">
                 <p:panelGrid columns="2">
+
                     <h:outputLabel value="Monto origen:"/>
-                    <h:outputText value="#{conversionBean.ultimaConversion.divisaOrigen} #{conversionBean.ultimaConversion.montoOrigen}">
-                        <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <h:outputText value="#{conversionBean.ultimaConversion.montoOrigen}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" groupingUsed="true"/>
                     </h:outputText>
 
+                    <h:outputLabel value="Divisa origen:"/>
+                    <h:outputText value="#{conversionBean.ultimaConversion.divisaOrigen}"/>
+
                     <h:outputLabel value="Resultado:"/>
-                    <h:outputText value="#{conversionBean.ultimaConversion.divisaDestino} #{conversionBean.ultimaConversion.montoDestino}">
-                        <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <h:outputText value="#{conversionBean.ultimaConversion.montoDestino}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" groupingUsed="true"/>
                     </h:outputText>
+
+                    <h:outputLabel value="Divisa destino:"/>
+                    <h:outputText value="#{conversionBean.ultimaConversion.divisaDestino}"/>
 
                     <h:outputLabel value="Tasa aplicada:"/>
                     <h:outputText value="1 USD = #{conversionBean.ultimaConversion.tasaAplicada} COP"/>
+
                 </p:panelGrid>
             </p:panel>
         </p:outputPanel>
@@ -88,24 +103,37 @@
             <p:panel header="Ultimas 5 conversiones de la sesion"
                      rendered="#{not empty conversionBean.historial}">
                 <p:dataTable value="#{conversionBean.historial}" var="conv">
+
                     <p:column headerText="Hora">
                         <h:outputText value="#{conv.fechaHora}">
-                            <f:convertDateTime pattern="HH:mm:ss"/>
+                            <f:convertDateTime pattern="HH:mm:ss" type="localDateTime"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Origen">
-                        <h:outputText value="#{conv.divisaOrigen} #{conv.montoOrigen}">
-                            <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+
+                    <p:column headerText="De">
+                        <h:outputText value="#{conv.divisaOrigen}"/>
+                    </p:column>
+
+                    <p:column headerText="Monto origen">
+                        <h:outputText value="#{conv.montoOrigen}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" groupingUsed="true"/>
                         </h:outputText>
                     </p:column>
+
+                    <p:column headerText="A">
+                        <h:outputText value="#{conv.divisaDestino}"/>
+                    </p:column>
+
                     <p:column headerText="Resultado">
-                        <h:outputText value="#{conv.divisaDestino} #{conv.montoDestino}">
-                            <f:formatNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        <h:outputText value="#{conv.montoDestino}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" groupingUsed="true"/>
                         </h:outputText>
                     </p:column>
+
                     <p:column headerText="Tasa">
                         <h:outputText value="#{conv.tasaAplicada}"/>
                     </p:column>
+
                 </p:dataTable>
             </p:panel>
         </p:outputPanel>
