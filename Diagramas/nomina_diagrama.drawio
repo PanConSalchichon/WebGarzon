@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ===================== TITULOS DE CAPAS ===================== -->
+
+    <!-- Capa VISTA -->
+    <mxCell id="lbl_vista" value="VISTA (XHTML)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#1a5276;" vertex="1" parent="1">
+      <mxGeometry x="40" y="30" width="520" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Capa CONTROLADOR -->
+    <mxCell id="lbl_ctrl" value="CONTROLADOR (Bean)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#145a32;" vertex="1" parent="1">
+      <mxGeometry x="640" y="30" width="300" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Capa SERVICIO -->
+    <mxCell id="lbl_svc" value="SERVICIO (Logica de negocio)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#7b241c;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="30" width="300" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Capa MODELO -->
+    <mxCell id="lbl_model" value="MODELO (Clases de dominio)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#4a235a;" vertex="1" parent="1">
+      <mxGeometry x="1390" y="30" width="230" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== SEPARADORES DE CAPA ===================== -->
+    <mxCell id="sep1" value="" style="line;strokeColor=#aaaaaa;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="620" y="20" width="10" height="1080" as="geometry" />
+    </mxCell>
+    <mxCell id="sep2" value="" style="line;strokeColor=#aaaaaa;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="1000" y="20" width="10" height="1080" as="geometry" />
+    </mxCell>
+    <mxCell id="sep3" value="" style="line;strokeColor=#aaaaaa;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="1370" y="20" width="10" height="1080" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== VISTAS ===================== -->
+
+    <!-- index.xhtml -->
+    <mxCell id="index" value="&lt;b&gt;index.xhtml&lt;/b&gt;&lt;br&gt;Menu principal&lt;br&gt;&lt;font color='#666666' size='1'&gt;Links: CDT, ASP, Nomina&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="80" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- menu.xhtml -->
+    <mxCell id="menu" value="&lt;b&gt;menu.xhtml&lt;/b&gt;&lt;br&gt;Menu del modulo Nomina&lt;br&gt;&lt;font color='#666666' size='1'&gt;h:link → registro, gestion&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="220" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- registro.xhtml -->
+    <mxCell id="registro" value="&lt;b&gt;registro.xhtml&lt;/b&gt;&lt;br&gt;Formulario + Resultado&lt;br&gt;&lt;font color='#666666' size='1'&gt;h:form id='formNomina'&lt;br&gt;h:inputText, h:selectOneMenu&lt;br&gt;h:commandButton Calcular/Limpiar&lt;br&gt;h:panelGroup resultado&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="380" width="220" height="110" as="geometry" />
+    </mxCell>
+
+    <!-- gestion.xhtml -->
+    <mxCell id="gestion" value="&lt;b&gt;gestion.xhtml&lt;/b&gt;&lt;br&gt;Tabla de empleados&lt;br&gt;&lt;font color='#666666' size='1'&gt;h:dataTable value=listaEmpleados&lt;br&gt;h:column x 8&lt;br&gt;empty / not empty panelGroup&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="60" y="600" width="220" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- Componentes del formulario -->
+    <mxCell id="form_campos" value="Campos del formulario&lt;br&gt;&lt;font color='#666666' size='1'&gt;identificacion | nombres | apellidos&lt;br&gt;telefono | correo | salario (select)&lt;br&gt;diasTrabajados (1-30)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#f9a825;fontSize=10;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="310" y="390" width="230" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- Panel resultado -->
+    <mxCell id="resultado_panel" value="Panel resultado (rendered si nominaResultado != null)&lt;br&gt;&lt;font color='#666666' size='1'&gt;salarioCalculado | auxilioTransporte&lt;br&gt;descuentoSalud | descuentoPension&lt;br&gt;netoPagar — f:convertNumber&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#f9a825;fontSize=10;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="310" y="480" width="260" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- h:message -->
+    <mxCell id="hmessage" value="h:message por campo&lt;br&gt;&lt;font color='#666666' size='1'&gt;Muestra errores de formato&lt;br&gt;y duplicados junto al input&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c62828;fontSize=10;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="310" y="570" width="200" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== CONTROLADOR ===================== -->
+
+    <!-- NominaBean -->
+    <mxCell id="nominabean" value="&lt;b&gt;NominaBean&lt;/b&gt;&lt;br&gt;@Named('nominaBean')&lt;br&gt;@ViewScoped&lt;br&gt;&lt;hr&gt;&lt;font color='#666666' size='1'&gt;- empleado : Empleado&lt;br&gt;- nominaResultado : Nomina&lt;br&gt;@Inject NominaService&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="645" y="200" width="210" height="130" as="geometry" />
+    </mxCell>
+
+    <!-- Metodos NominaBean -->
+    <mxCell id="bean_metodos" value="Metodos&lt;br&gt;&lt;font color='#666666' size='1'&gt;+ init() : @PostConstruct&lt;br&gt;+ calcular() : void&lt;br&gt;+ limpiar() : void&lt;br&gt;— validarFormato() : boolean&lt;br&gt;— validarDuplicados() : boolean&lt;br&gt;+ getListaEmpleados() : List&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="645" y="360" width="210" height="130" as="geometry" />
+    </mxCell>
+
+    <!-- Flujo calcular() -->
+    <mxCell id="flujo" value="Flujo calcular()&lt;br&gt;&lt;font color='#666666' size='1'&gt;1. validarFormato() → regex tel/correo&lt;br&gt;2. validarDuplicados() → llama servicio&lt;br&gt;3. guardarEmpleado()&lt;br&gt;4. calcularNomina()&lt;br&gt;5. FacesMessage exito/error&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f0a500;fontSize=10;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="645" y="530" width="230" height="110" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== SERVICIO ===================== -->
+
+    <!-- NominaService -->
+    <mxCell id="nominasvc" value="&lt;b&gt;NominaService&lt;/b&gt;&lt;br&gt;@ApplicationScoped&lt;br&gt;&lt;hr&gt;&lt;font color='#666666' size='1'&gt;- SMMLV = 1.300.000&lt;br&gt;- AUXILIO_TRANSPORTE = 162.000&lt;br&gt;- empleadosRegistrados : List&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1030" y="200" width="230" height="130" as="geometry" />
+    </mxCell>
+
+    <!-- Metodos NominaService -->
+    <mxCell id="svc_metodos" value="Metodos&lt;br&gt;&lt;font color='#666666' size='1'&gt;+ validarDuplicados(emp) : List&lt;String&gt;&lt;br&gt;&nbsp;&nbsp;→ revisa id, correo, telefono&lt;br&gt;+ guardarEmpleado(emp) : void&lt;br&gt;&nbsp;&nbsp;→ throws Exception si duplicado&lt;br&gt;+ calcularNomina(emp) : Nomina&lt;br&gt;&nbsp;&nbsp;→ salario, salud, pension, aux&lt;br&gt;+ getEmpleadosRegistrados() : List&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1030" y="360" width="260" height="150" as="geometry" />
+    </mxCell>
+
+    <!-- Reglas de negocio -->
+    <mxCell id="reglas" value="Reglas de negocio&lt;br&gt;&lt;font color='#666666' size='1'&gt;salario = (basico/30) * dias&lt;br&gt;salud = salario * 0.04&lt;br&gt;pension = salario * 0.04&lt;br&gt;aux = (162000/30)*dias si basico &lt;= 2*SMMLV&lt;br&gt;neto = salario - salud - pension + aux&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f0a500;fontSize=10;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1030" y="540" width="260" height="110" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== MODELO ===================== -->
+
+    <!-- Persona -->
+    <mxCell id="persona" value="&lt;b&gt;Persona&lt;/b&gt;&lt;br&gt;implements Serializable&lt;br&gt;&lt;hr&gt;&lt;font color='#666666' size='1'&gt;- id_p : long&lt;br&gt;- nombres : String&lt;br&gt;- apellidos : String&lt;br&gt;- telefono : String&lt;br&gt;- correo : String&lt;br&gt;+ hashCode(), equals()&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1400" y="80" width="190" height="170" as="geometry" />
+    </mxCell>
+
+    <!-- Empleado -->
+    <mxCell id="empleado" value="&lt;b&gt;Empleado&lt;/b&gt;&lt;br&gt;extends Persona&lt;br&gt;&lt;hr&gt;&lt;font color='#666666' size='1'&gt;- salarioBasico : double&lt;br&gt;- diasTrabajados : int&lt;br&gt;+ Empleado()&lt;br&gt;+ Empleado(id, nom, ap, tel, &lt;br&gt;&nbsp;&nbsp;correo, salario, dias)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1400" y="310" width="190" height="150" as="geometry" />
+    </mxCell>
+
+    <!-- Nomina -->
+    <mxCell id="nomina" value="&lt;b&gt;Nomina&lt;/b&gt;&lt;br&gt;&lt;hr&gt;&lt;font color='#666666' size='1'&gt;- empleado : Empleado&lt;br&gt;- salarioCalculado : double&lt;br&gt;- auxilioTransporte : double&lt;br&gt;- descuentoSalud : double&lt;br&gt;- descuentoPension : double&lt;br&gt;- netoPagar : double&lt;br&gt;&lt;i&gt;Solo almacena, no calcula&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;arcSize=8;" vertex="1" parent="1">
+      <mxGeometry x="1400" y="530" width="190" height="170" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== FLECHAS DE NAVEGACION (VISTAS) ===================== -->
+
+    <!-- index → menu -->
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2980b9;fontSize=10;" edge="1" source="index" target="menu" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e1lbl" value="href menu.xhtml" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e1">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- menu → registro -->
+    <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2980b9;fontSize=10;" edge="1" source="menu" target="registro" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e2lbl" value="h:link /registro" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e2">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- menu → gestion -->
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2980b9;fontSize=10;" edge="1" source="menu" target="gestion" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e3lbl" value="h:link /gestion" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e3">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- registro → campos -->
+    <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#f9a825;dashed=1;" edge="1" source="registro" target="form_campos" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- registro → resultado_panel -->
+    <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#f9a825;dashed=1;" edge="1" source="registro" target="resultado_panel" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- registro → hmessage -->
+    <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#c62828;dashed=1;" edge="1" source="registro" target="hmessage" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== FLECHAS VISTA → CONTROLADOR ===================== -->
+
+    <!-- registro → nominabean (accion calcular) -->
+    <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#27ae60;fontStyle=2;fontSize=10;" edge="1" source="registro" target="nominabean" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e7lbl" value="action=calcular()&lt;br&gt;action=limpiar()" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e7">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- gestion → nominabean (getListaEmpleados) -->
+    <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#27ae60;fontSize=10;" edge="1" source="gestion" target="nominabean" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e8lbl" value="getListaEmpleados()" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e8">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- nominabean → bean_metodos (composicion) -->
+    <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;dashed=1;" edge="1" source="nominabean" target="bean_metodos" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- bean_metodos → flujo -->
+    <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;dashed=1;" edge="1" source="bean_metodos" target="flujo" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== FLECHAS CONTROLADOR → SERVICIO ===================== -->
+
+    <!-- nominabean → nominasvc -->
+    <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;fontSize=10;" edge="1" source="nominabean" target="nominasvc" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e11lbl" value="@Inject" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e11">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- flujo → svc_metodos -->
+    <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;fontSize=10;" edge="1" source="flujo" target="svc_metodos" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e12lbl" value="validarDuplicados()&lt;br&gt;guardarEmpleado()&lt;br&gt;calcularNomina()" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e12">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- svc_metodos → reglas -->
+    <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;dashed=1;" edge="1" source="svc_metodos" target="reglas" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== FLECHAS SERVICIO → MODELO ===================== -->
+
+    <!-- nominasvc → empleado -->
+    <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;fontSize=10;" edge="1" source="nominasvc" target="empleado" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e14lbl" value="usa Empleado" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e14">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- nominasvc → nomina (retorna) -->
+    <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;fontSize=10;" edge="1" source="nominasvc" target="nomina" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e15lbl" value="retorna Nomina" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e15">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- nominabean → empleado (binding) -->
+    <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;dashed=1;fontSize=10;" edge="1" source="nominabean" target="empleado" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e16lbl" value="binding" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e16">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- nominabean → nomina (resultado) -->
+    <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;dashed=1;fontSize=10;" edge="1" source="nominabean" target="nomina" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e17lbl" value="nominaResultado" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e17">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- Herencia Empleado → Persona -->
+    <mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;endArrow=block;endFill=0;fontSize=10;" edge="1" source="empleado" target="persona" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e18lbl" value="extends" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e18">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- Nomina tiene Empleado (composicion) -->
+    <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;startArrow=diamond;startFill=1;fontSize=10;" edge="1" source="nomina" target="empleado" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e19lbl" value="tiene" style="edgeLabel;html=1;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" connectable="0" parent="e19">
+      <mxGeometry relative="0.5" as="geometry" />
+    </mxCell>
+
+    <!-- ===================== LEYENDA ===================== -->
+    <mxCell id="leyenda_titulo" value="Leyenda" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="40" y="820" width="100" height="20" as="geometry" />
+    </mxCell>
+    <mxCell id="ley1" value="Vista (XHTML)" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="40" y="850" width="120" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="ley2" value="Controlador (Bean)" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="175" y="850" width="140" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="ley3" value="Servicio" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="330" y="850" width="100" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="ley4" value="Modelo" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="445" y="850" width="100" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="ley5" value="Detalle / sub-componente" style="rounded=1;fillColor=#fffde7;strokeColor=#f9a825;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="40" y="885" width="180" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="ley6" value="Errores / mensajes JSF" style="rounded=1;fillColor=#fce4ec;strokeColor=#c62828;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="235" y="885" width="160" height="25" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

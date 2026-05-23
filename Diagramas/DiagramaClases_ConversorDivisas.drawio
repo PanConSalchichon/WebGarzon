@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="9o0MXfUwYyvKGRpHLPsS" name="Página-1">
+    <mxGraphModel dx="1075" dy="589" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pkg_model" parent="1" style="swimlane;startSize=40;fillColor=#E8F5E9;strokeColor=#1B5E20;fontColor=#1B5E20;fontStyle=3;fontSize=11;align=center;" value="Model" vertex="1">
+          <mxGeometry height="340" width="310" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pkg_service" parent="1" style="swimlane;startSize=40;fillColor=#FFF3E0;strokeColor=#E65100;fontColor=#E65100;fontStyle=3;fontSize=11;align=center;" value="Service" vertex="1">
+          <mxGeometry height="340" width="330" x="400" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pkg_bean" parent="1" style="swimlane;startSize=40;fillColor=#E8EAF6;strokeColor=#1A237E;fontColor=#1A237E;fontStyle=3;fontSize=11;align=center;" value="Bean&#xa;divisas" vertex="1">
+          <mxGeometry height="320" width="690" x="40" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="pkg_vista" parent="1" style="swimlane;startSize=40;fillColor=#E3F2FD;strokeColor=#283593;fontColor=#283593;fontStyle=3;fontSize=11;align=center;" value="Vista" vertex="1">
+          <mxGeometry height="710" width="290" x="790" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="conv_hdr" parent="1" style="text;html=1;strokeColor=#1B5E20;fillColor=#1B5E20;align=center;verticalAlign=middle;fontSize=12;fontColor=#FFFFFF;rounded=1;arcSize=5;" value="&lt;b&gt;&lt;i&gt;&amp;lt;&amp;lt;Model&amp;gt;&amp;gt;&lt;/i&gt;&lt;/b&gt;&#xa;&lt;b&gt;Conversion&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="274" x="58" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="conv_attr" parent="1" style="text;html=0;strokeColor=#1B5E20;fillColor=#E8F5E9;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;" value="- montoOrigen : double&#xa;- montoDestino : double&#xa;- divisaOrigen : String&#xa;- divisaDestino : String&#xa;- tasaAplicada : double&#xa;- fechaHora : LocalDateTime" vertex="1">
+          <mxGeometry height="120" width="274" x="58" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="conv_meth" parent="1" style="text;html=0;strokeColor=#1B5E20;fillColor=#FFFFFF;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;fontColor=#1B5E20;" value="+ getDescripcion() : String&#xa;+ getters / setters" vertex="1">
+          <mxGeometry height="44" width="274" x="58" y="256" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_hdr" parent="1" style="text;html=1;strokeColor=#E65100;fillColor=#E65100;align=center;verticalAlign=middle;fontSize=12;fontColor=#FFFFFF;rounded=1;arcSize=5;" value="&lt;b&gt;&lt;i&gt;&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;/i&gt;&lt;/b&gt;&#xa;&lt;i&gt;@ApplicationScoped&lt;/i&gt;&#xa;&lt;b&gt;ConversionService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="294" x="418" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_attr" parent="1" style="text;html=0;strokeColor=#E65100;fillColor=#FFF3E0;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;" value="~ PROP_FILE : String&#xa;~ KEY_TASA : String" vertex="1">
+          <mxGeometry height="44" width="294" x="418" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_meth" parent="1" style="text;html=0;strokeColor=#E65100;fillColor=#FFFFFF;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;fontColor=#E65100;" value="- cargarTasa() : double&#xa;+ convertir(monto:double, divisaOrigen:String) :&#xa; Conversion&#xa;+ getTasaActual() : double" vertex="1">
+          <mxGeometry height="60" width="294" x="418" y="192" as="geometry" />
+        </mxCell>
+        <mxCell id="bean_hdr" parent="1" style="text;html=1;strokeColor=#1A237E;fillColor=#1A237E;align=center;verticalAlign=middle;fontSize=12;fontColor=#FFFFFF;rounded=1;arcSize=5;" value="&lt;b&gt;&lt;i&gt;&amp;lt;&amp;lt;Backing Bean&amp;gt;&amp;gt;&lt;/i&gt;&lt;/b&gt;&#xa;&lt;i&gt;@Named @SessionScoped&lt;/i&gt;&#xa;&lt;b&gt;ConversionBean&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="654" x="58" y="478" as="geometry" />
+        </mxCell>
+        <mxCell id="bean_attr" parent="1" style="text;html=0;strokeColor=#1A237E;fillColor=#E8EAF6;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;" value="- monto : double&#xa;- divisaOrigen : String&#xa;- ultimaConversion : Conversion&#xa;- historial : LinkedList&lt;Conversion&gt;&#xa;@Inject conversionService : ConversionService" vertex="1">
+          <mxGeometry height="100" width="654" x="58" y="538" as="geometry" />
+        </mxCell>
+        <mxCell id="bean_meth" parent="1" style="text;html=0;strokeColor=#1A237E;fillColor=#FFFFFF;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;fontColor=#1A237E;" value="+ convertir() : void&#xa;+ getDivisasDisponibles() : List&lt;String&gt;&#xa;+ getDivisaDestinoLabel() : String&#xa;+ getTasaActual() : double&#xa;+ getters / setters" vertex="1">
+          <mxGeometry height="96" width="654" x="58" y="638" as="geometry" />
+        </mxCell>
+        <mxCell id="vista_hdr" parent="1" style="text;html=1;strokeColor=#283593;fillColor=#283593;align=center;verticalAlign=middle;fontSize=12;fontColor=#FFFFFF;rounded=1;arcSize=5;" value="&lt;b&gt;&lt;i&gt;&amp;lt;&amp;lt;View&amp;gt;&amp;gt;&lt;/i&gt;&lt;/b&gt;&#xa;&lt;i&gt;Facelets + PrimeFaces&lt;/i&gt;&#xa;&lt;b&gt;index.xhtml&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="254" x="808" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="vista_attr" parent="1" style="text;html=0;strokeColor=#283593;fillColor=#E3F2FD;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;" value="p:inputNumber (monto)&#xa;p:selectOneMenu (divisaOrigen)&#xa;p:commandButton (ajax=true)&#xa;p:outputPanel (panelResultado)&#xa;p:outputPanel (panelHistorial)&#xa;p:messages (mensajes)" vertex="1">
+          <mxGeometry height="120" width="254" x="808" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="vista_meth" parent="1" style="text;html=0;strokeColor=#283593;fillColor=#FFFFFF;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;fontFamily=Courier New;fontColor=#283593;" value="update: panelResultado&#xa;update: panelHistorial&#xa;update: mensajes&#xa;action: #{conversionBean.convertir}" vertex="1">
+          <mxGeometry height="80" width="254" x="808" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="nota" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#FFFDE7;strokeColor=#F9A825;fontFamily=Courier New;fontSize=10;align=left;spacingLeft=6;" value="&lt;b&gt;divisas.properties&lt;/b&gt;&#xa;&#xa;tasa.usd.a.cop=4250.50&#xa;divisa.cop.nombre=Peso Colombiano&#xa;divisa.usd.nombre=Dolar Estadounidense" vertex="1">
+          <mxGeometry height="90" width="294" x="418" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="rel1" edge="1" parent="1" source="svc_meth" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1B5E20;fontColor=#1B5E20;fontSize=10;fontStyle=2;endArrow=open;endFill=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="crea">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="418" y="240" />
+              <mxPoint x="332" y="240" />
+            </Array>
+            <mxPoint x="332" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel1_lbl" connectable="0" parent="rel1" style="resizable=0;html=1;align=left;verticalAlign=bottom;fontSize=10;fontColor=#1B5E20;fontStyle=2;" value="1..*" vertex="1">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel2" edge="1" parent="1" source="bean_attr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#3949AB;fontColor=#3949AB;fontSize=10;fontStyle=2;endArrow=open;endFill=0;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="svc_meth" value="&lt;&lt;@Inject&gt;&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="712" y="575" />
+              <mxPoint x="755" y="575" />
+              <mxPoint x="755" y="280" />
+              <mxPoint x="565" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel3" edge="1" parent="1" source="pkg_bean" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1B5E20;fontColor=#1B5E20;fontSize=10;fontStyle=2;endArrow=open;endFill=0;entryX=0.15;entryY=1;entryDx=0;entryDy=0;" target="conv_attr" value="almacena">
+          <mxGeometry relative="1" x="-0.0317" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="30" y="590" />
+              <mxPoint x="30" y="256" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel3_lbl" connectable="0" parent="rel3" style="resizable=0;html=1;align=left;verticalAlign=bottom;fontSize=10;fontColor=#1B5E20;fontStyle=2;" value="0..5" vertex="1">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel4" edge="1" parent="1" source="vista_attr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#283593;fontColor=#283593;fontSize=10;fontStyle=2;endArrow=open;endFill=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;" target="bean_hdr" value="#{conversionBean}">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="210" />
+              <mxPoint x="780" y="496" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel5" edge="1" parent="1" source="nota" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#F9A825;fontColor=#F9A825;fontSize=10;fontStyle=2;endArrow=open;endFill=0;" target="svc_meth" value="lee">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="270" />
+              <mxPoint x="510" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

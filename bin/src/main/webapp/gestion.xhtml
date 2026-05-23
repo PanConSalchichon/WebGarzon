@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--
+    gestion.xhtml
+    Vista de consulta de empleados registrados en el sistema.
+
+    Responsabilidades:
+      - Mostrar en una tabla todos los empleados guardados durante la sesion.
+      - Mostrar un mensaje informativo si aun no hay empleados registrados.
+      - No realiza calculos; solo presenta datos del NominaService.
+
+    Bean utilizado: #{nominaBean} (NominaBean - @ViewScoped)
+    No usa PrimeFaces; usa unicamente componentes h: estandar de JSF.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Nomina - Empleados Registrados</title>
+    <!-- Bootstrap 5 para layout y estilos -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <style>
+        /* Fondo general */
+        body { background-color: #f8f9fa; }
+
+        /* Barra superior */
+        .app-header {
+            background: #fff;
+            border-bottom: 1px solid #dee2e6;
+            padding: 14px 0;
+            margin-bottom: 2rem;
+        }
+        .app-header h1 {
+            font-size: 1.1rem; font-weight: 600;
+            color: #198754; margin: 0;
+        }
+        .app-header p { font-size: 0.78rem; color: #6c757d; margin: 0; }
+
+        /* Logo cuadrado verde */
+        .logo-box {
+            width: 38px; height: 38px; background: #198754;
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; color: #fff;
+            font-size: 1.1rem; font-weight: bold;
+        }
+
+        /* Migas de pan */
+        .breadcrumb-bar { font-size: 0.82rem; color: #6c757d; margin-bottom: 1.5rem; }
+        .breadcrumb-bar a { color: #198754; text-decoration: none; }
+        .breadcrumb-bar a:hover { text-decoration: underline; }
+
+        /* Tarjeta contenedora de la tabla */
+        .table-card {
+            background: #fff; border: 1px solid #dee2e6;
+            border-radius: 12px; overflow: hidden;
+        }
+        .table-card .table { margin: 0; font-size: 0.88rem; }
+        .table-card .table thead th {
+            background: #f8f9fa; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 0.04em;
+            color: #6c757d; font-weight: 500;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .table-card .table tbody tr:hover { background: #f0faf4; }
+
+        /* Badge verde para el salario */
+        .badge-salario {
+            background: #d1e7dd; color: #0a3622;
+            padding: 3px 8px; border-radius: 20px;
+            font-size: 0.78rem; font-weight: 500;
+        }
+
+        /* Contador de registros */
+        .registro-count {
+            font-size: 0.82rem; color: #6c757d;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .registro-count strong { color: #198754; }
+    </style>
+</h:head>
+
+<h:body>
+
+    <!-- ===== CABECERA DE LA APLICACION ===== -->
+    <div class="app-header">
+        <div class="container d-flex align-items-center gap-3">
+            <div class="logo-box">N</div>
+            <div>
+                <h1>Sistema de Nomina</h1>
+                <p>Kevin Garzon &#8212; Programacion Avanzada &#8212; Universidad Distrital 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- ===== MIGAS DE PAN ===== -->
+        <div class="breadcrumb-bar">
+            <a href="index.xhtml">Inicio</a> /
+            <a href="menu.xhtml">Nomina</a> /
+            Empleados registrados
+        </div>
+
+        <!-- ===== TITULO DE SECCION ===== -->
+        <h4 class="mb-1 fw-semibold">Empleados registrados</h4>
+        <p class="text-muted mb-4" style="font-size:0.88rem">
+            Listado de todos los empleados ingresados durante esta sesion.
+        </p>
+
+        <!--
+            No se necesita h:form aqui porque esta vista solo muestra datos,
+            no realiza ningun envio de formulario.
+        -->
+
+        <!--
+            Panel que se muestra SOLO cuando la lista esta vacia.
+            rendered evalua la expresion en el servidor antes de generar HTML.
+        -->
+        <h:panelGroup rendered="#{empty nominaBean.listaEmpleados}">
+            <div class="alert alert-warning d-flex align-items-center gap-2">
+                <span style="font-size:1.2rem;">&#9888;</span>
+                <span>
+                    No hay empleados registrados aun.
+                    <a href="registro.xhtml" style="color:#856404;">Registre uno aqui.</a>
+                </span>
+            </div>
+        </h:panelGroup>
+
+        <!--
+            Panel que se muestra SOLO cuando hay al menos un empleado.
+            Contiene la tabla de datos.
+        -->
+        <h:panelGroup rendered="#{not empty nominaBean.listaEmpleados}">
+            <div class="table-card">
+
+                <!-- Contador de registros -->
+                <div class="registro-count">
+                    Total registrados: <strong>#{nominaBean.listaEmpleados.size()}</strong>
+                </div>
+
+                <!--
+                    h:dataTable itera la lista de empleados del bean.
+                    var="emp" define el nombre de la variable de iteracion.
+                    Cada h:column es una columna de la tabla HTML generada.
+                -->
+                <h:dataTable
+                    value="#{nominaBean.listaEmpleados}"
+                    var="emp"
+                    styleClass="table table-hover table-bordered"
+                    headerClass="table-light"
+                    rowClasses="align-middle">
+
+                    <!-- Columna: numero de fila -->
+                    <h:column>
+                        <f:facet name="header">N&#176;</f:facet>
+                        <!--
+                            No hay indice nativo en h:dataTable.
+                            Se usa indexOf para obtener la posicion en la lista.
+                        -->
+                        #{nominaBean.listaEmpleados.indexOf(emp) + 1}
+                    </h:column>
+
+                    <!-- Columna: identificacion -->
+                    <h:column>
+                        <f:facet name="header">Identificacion</f:facet>
+                        <h:outputText value="#{emp.id_p}"/>
+                    </h:column>
+
+                    <!-- Columna: nombres -->
+                    <h:column>
+                        <f:facet name="header">Nombres</f:facet>
+                        <h:outputText value="#{emp.nombres}"/>
+                    </h:column>
+
+                    <!-- Columna: apellidos -->
+                    <h:column>
+                        <f:facet name="header">Apellidos</f:facet>
+                        <h:outputText value="#{emp.apellidos}"/>
+                    </h:column>
+
+                    <!-- Columna: telefono -->
+                    <h:column>
+                        <f:facet name="header">Telefono</f:facet>
+                        <h:outputText value="#{emp.telefono}"/>
+                    </h:column>
+
+                    <!-- Columna: correo -->
+                    <h:column>
+                        <f:facet name="header">Correo</f:facet>
+                        <h:outputText value="#{emp.correo}"/>
+                    </h:column>
+
+                    <!-- Columna: salario basico con formato de moneda -->
+                    <h:column>
+                        <f:facet name="header">Salario basico</f:facet>
+                        <span class="badge-salario">
+                            $&#160;<h:outputText value="#{emp.salarioBasico}">
+                                <!--
+                                    f:convertNumber formatea el double como numero
+                                    con separador de miles y sin decimales.
+                                -->
+                                <f:convertNumber pattern="###,###"/>
+                            </h:outputText>
+                        </span>
+                    </h:column>
+
+                    <!-- Columna: dias trabajados -->
+                    <h:column>
+                        <f:facet name="header">Dias</f:facet>
+                        <h:outputText value="#{emp.diasTrabajados}"/>
+                    </h:column>
+
+                </h:dataTable>
+
+            </div><!-- fin table-card -->
+        </h:panelGroup>
+
+        <!-- Boton para ir a registrar otro empleado -->
+        <div class="mt-3">
+            <a href="registro.xhtml" class="btn btn-success btn-sm">
+                + Registrar otro empleado
+            </a>
+            <a href="menu.xhtml" class="btn btn-outline-secondary btn-sm ms-2">
+                Volver al menu
+            </a>
+        </div>
+
+    </div><!-- fin container -->
+
+</h:body>
+</html>

@@ -1,0 +1,70 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="wEcF26x8gJhQhCKYbG62" name="Página-1">
+    <mxGraphModel dx="1012" dy="493" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="swimlane;startSize=40;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;b&gt;CDTDto&lt;/b&gt;&lt;br&gt;Serializable" vertex="1">
+          <mxGeometry height="250" width="260" x="280" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" value="- inversion : double&#xa;- interes : double&#xa;- plazo : int&#xa;&#xa;- ganancia : double&#xa;- valorFuturo : double&#xa;- impuesto : double&#xa;- gananciaNeta : double&#xa;- valorFuturoNeto : double&#xa;&#xa;+ getters / setters&#xa;+ toString() : String" vertex="1">
+          <mxGeometry height="210" width="260" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;" value="CDTServicio" vertex="1">
+          <mxGeometry height="110" width="240" x="20" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="4" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" value="+ calcular(dto: CDTDto) : void&#xa;  ganancia = inv * (tasa * plazo/360)&#xa;  impuesto = ganancia * 0.04&#xa;&#xa;+ validar(dto: CDTDto) : String" vertex="1">
+          <mxGeometry height="80" width="240" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="swimlane;startSize=50;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#003082;" value="CDTBean" vertex="1">
+          <mxGeometry height="220" width="260" x="20" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="6" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" value="- dto : CDTDto&#xa;- servicio : CDTServicio&#xa;- calculado : boolean&#xa;- mensajeError : String&#xa;&#xa;+ getDto() / setDto()&#xa;+ isCalculado() : boolean&#xa;+ getMensajeError() : String&#xa;+ calcular() : void&#xa;+ limpiar() : void" vertex="1">
+          <mxGeometry height="170" width="260" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="shape=document;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" value="cdt.xhtml" vertex="1">
+          <mxGeometry height="100" width="180" x="560" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;" value="Bootstrap 5&#xa;Validaciones JSF&#xa;#{cdt.dto.*}" vertex="1">
+          <mxGeometry height="50" width="180" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="20" edge="1" parent="1" source="6" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#6c8ebf;" target="2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" connectable="0" parent="20" style="edgeLabel;fontSize=11;fontColor=#6c8ebf;" value="- dto" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="22" edge="1" parent="1" source="6" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#6c8ebf;" target="4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" connectable="0" parent="22" style="edgeLabel;fontSize=11;fontColor=#6c8ebf;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="24" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#666666;" target="2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="25" connectable="0" parent="24" style="edgeLabel;fontSize=11;" value="&lt;&lt;param&gt;&gt;" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="26" edge="1" parent="1" source="8" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" connectable="0" parent="26" style="edgeLabel;fontSize=11;fontColor=#997700;" value="#{cdt.*}" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="30" parent="1" style="text;fontStyle=1;fontSize=11;fontColor=#997700;" value="Capa Vista" vertex="1">
+          <mxGeometry height="20" width="180" x="560" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="31" parent="1" style="text;fontStyle=1;fontSize=11;fontColor=#003082;" value="Capa Controlador" vertex="1">
+          <mxGeometry height="20" width="180" x="20" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="32" parent="1" style="text;fontStyle=1;fontSize=11;fontColor=#333333;" value="Capa Modelo / Servicio" vertex="1">
+          <mxGeometry height="20" width="260" x="20" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="33" parent="1" style="text;fontStyle=1;fontSize=11;fontColor=#333333;" value="DTO" vertex="1">
+          <mxGeometry height="20" width="260" x="280" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
