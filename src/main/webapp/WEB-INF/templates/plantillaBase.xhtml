@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core"
-      xmlns:c="jakarta.tags.core"
-      xmlns:ui="jakarta.faces.facelets">
-      
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui">
+
 <h:head>
-     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-     <title><ui:insert name="titulo">Sistema de Nomina</ui:insert></title>
-     
-     <link rel="stylesheet"
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title><ui:insert name="titulo">Sistema de Nomina</ui:insert></title>
+
+    <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-          
-     <style>
+
+    <style>
         body { background-color: #f8f9fa; }
 
         .app-header {
@@ -22,19 +21,21 @@
             margin-bottom: 0;
         }
         .app-header h1 {
-            font-size: 1.1rem; font-weight: 600;
-            color: #198754; margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #198754;
+            margin: 0;
         }
         .app-header p { font-size: 0.78rem; color: #6c757d; margin: 0; }
 
         .logo-box {
-            width: 38px; height: 38px; background: #198754;
-            border-radius: 8px; display: flex; align-items: center;
-            justify-content: center; color: #fff;
-            font-size: 1.1rem; font-weight: bold;
+            width: 38px; height: 38px;
+            background: #198754;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1.1rem; font-weight: bold;
         }
 
-        /* Barra de navegacion */
         .nav-bar {
             background-color: #157347;
             padding: 0 1rem;
@@ -51,11 +52,6 @@
             background: rgba(255,255,255,0.12);
             color: #fff !important;
         }
-        .nav-bar a.activo {
-            color: #fff !important;
-            font-weight: 600;
-            border-bottom: 2px solid #fff;
-        }
 
         .contenido-principal {
             padding: 2rem 0;
@@ -71,13 +67,13 @@
             color: #6c757d;
         }
     </style>
-     
+
     <ui:insert name="estilos"/>
-</h:head>       
+</h:head>
 
 <h:body>
 
-    <!-- ENCABEZADO FIJO -->
+    <!-- ENCABEZADO -->
     <div class="app-header">
         <div class="container d-flex align-items-center gap-3">
             <div class="logo-box">N</div>
@@ -88,17 +84,17 @@
         </div>
     </div>
 
-    <!-- MENU DE NAVEGACION FIJO -->
+    <!-- MENU DE NAVEGACION -->
     <div class="nav-bar">
         <div class="container">
-            <a href="#{request.contextPath}/index.xhtml">&#127968; Inicio</a>
-            <a href="#{request.contextPath}/menu.xhtml">&#128203; Nomina</a>
-            <a href="#{request.contextPath}/registro.xhtml">&#128100; Registrar</a>
-            <a href="#{request.contextPath}/gestion.xhtml">&#128202; Empleados</a>
+            <a href="index.html">&#127968; Inicio</a>
+            <a href="menu.xhtml">&#128203; Nomina</a>
+            <a href="registro.xhtml">&#128100; Registrar</a>
+            <a href="gestion.xhtml">&#128202; Empleados</a>
         </div>
     </div>
 
-    <!-- CONTENIDO: cada pagina define esta zona -->
+    <!-- CONTENIDO -->
     <div class="contenido-principal">
         <div class="container">
             <ui:insert name="contenido">
@@ -107,10 +103,10 @@
         </div>
     </div>
 
-    <!-- PIE DE PAGINA FIJO -->
+    <!-- PIE DE PAGINA -->
     <div class="app-footer">
         <div class="container">
-            Kevin Garzon &mdash; Programacion Avanzada &mdash; Universidad Distrital &mdash; 2026
+            Kevin Garzon &#8212; Programacion Avanzada &#8212; Universidad Distrital &#8212; 2026
         </div>
     </div>
 

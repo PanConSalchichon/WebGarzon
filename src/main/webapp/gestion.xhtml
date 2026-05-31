@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/plantillaBase.xhtml">
+
+    <ui:define name="titulo">Nomina - Empleados Registrados</ui:define>
+
+    <ui:define name="estilos">
+        <style>
+            .table-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .table-card .table { margin: 0; font-size: 0.88rem; }
+            .table-card .table thead th {
+                background: #f8f9fa;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #6c757d;
+                font-weight: 500;
+                border-bottom: 1px solid #dee2e6;
+            }
+            .table-card .table tbody tr:hover { background: #f0faf4; }
+            .badge-salario {
+                background: #d1e7dd;
+                color: #0a3622;
+                padding: 3px 8px;
+                border-radius: 20px;
+                font-size: 0.78rem;
+                font-weight: 500;
+            }
+            .registro-count {
+                font-size: 0.82rem;
+                color: #6c757d;
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid #dee2e6;
+            }
+            .registro-count strong { color: #198754; }
+        </style>
+    </ui:define>
+
+    <ui:define name="contenido">
+
+        <h4 class="mb-1 fw-semibold">Empleados registrados</h4>
+        <p class="text-muted mb-4" style="font-size:0.88rem">
+            Listado de todos los empleados ingresados durante esta sesion.
+        </p>
+
+        <h:panelGroup rendered="#{empty nominaBean.listaEmpleados}">
+            <div class="alert alert-warning d-flex align-items-center gap-2">
+                <span style="font-size:1.2rem;">&#9888;</span>
+                <span>
+                    No hay empleados registrados aun.
+                    <a href="registro.xhtml" style="color:#856404;">Registre uno aqui.</a>
+                </span>
+            </div>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not empty nominaBean.listaEmpleados}">
+            <div class="table-card">
+
+                <div class="registro-count">
+                    Total registrados: <strong>#{nominaBean.listaEmpleados.size()}</strong>
+                </div>
+
+                <h:dataTable
+                    value="#{nominaBean.listaEmpleados}"
+                    var="emp"
+                    styleClass="table table-hover table-bordered"
+                    headerClass="table-light"
+                    rowClasses="align-middle">
+
+                    <h:column>
+                        <f:facet name="header">N&#176;</f:facet>
+                        #{nominaBean.listaEmpleados.indexOf(emp) + 1}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Identificacion</f:facet>
+                        <h:outputText value="#{emp.id_p}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Nombres</f:facet>
+                        <h:outputText value="#{emp.nombres}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Apellidos</f:facet>
+                        <h:outputText value="#{emp.apellidos}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Telefono</f:facet>
+                        <h:outputText value="#{emp.telefono}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Correo</f:facet>
+                        <h:outputText value="#{emp.correo}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Salario basico</f:facet>
+                        <span class="badge-salario">
+                            $&#160;<h:outputText value="#{emp.salarioBasico}">
+                                <f:convertNumber pattern="###,###"/>
+                            </h:outputText>
+                        </span>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Dias</f:facet>
+                        <h:outputText value="#{emp.diasTrabajados}"/>
+                    </h:column>
+
+                </h:dataTable>
+
+            </div>
+        </h:panelGroup>
+
+        <div class="mt-3">
+            <a href="registro.xhtml" class="btn btn-success btn-sm">
+                + Registrar otro empleado
+            </a>
+            <a href="menu.xhtml" class="btn btn-outline-secondary btn-sm ms-2">
+                Volver al menu
+            </a>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+</html>

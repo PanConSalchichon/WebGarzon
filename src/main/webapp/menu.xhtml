@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/plantillaBase.xhtml">
+
+    <ui:define name="titulo">Nomina - Menu</ui:define>
+
+    <ui:define name="estilos">
+        <style>
+            .menu-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                padding: 2rem 1.5rem;
+                text-align: center;
+                text-decoration: none;
+                color: inherit;
+                display: block;
+                transition: box-shadow 0.2s, transform 0.2s;
+            }
+            .menu-card:hover {
+                box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+                transform: translateY(-2px);
+                text-decoration: none;
+                color: inherit;
+            }
+            .menu-card .icon {
+                font-size: 2.2rem;
+                margin-bottom: 0.75rem;
+                display: block;
+            }
+            .menu-card h5 {
+                font-weight: 600;
+                font-size: 1rem;
+                margin-bottom: 0.4rem;
+            }
+            .menu-card p {
+                font-size: 0.83rem;
+                color: #6c757d;
+                margin: 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="contenido">
+
+        <h4 class="mb-1 fw-semibold">Modulo de Nomina</h4>
+        <p class="text-muted mb-4" style="font-size:0.88rem">
+            Seleccione una opcion para continuar.
+        </p>
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <h:link outcome="registro" styleClass="menu-card">
+                    <span class="icon">&#128100;</span>
+                    <h5>Registrar y calcular</h5>
+                    <p>Ingrese los datos del empleado y calcule su nomina.</p>
+                </h:link>
+            </div>
+
+            <div class="col-md-6">
+                <h:link outcome="gestion" styleClass="menu-card">
+                    <span class="icon">&#128203;</span>
+                    <h5>Empleados registrados</h5>
+                    <p>Consulte todos los empleados ingresados al sistema.</p>
+                </h:link>
+            </div>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+</html>
