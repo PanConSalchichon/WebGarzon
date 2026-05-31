@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:c="jakarta.tags.core"
+      xmlns:ui="jakarta.faces.facelets">
+      
+<h:head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+     <title><ui:insert name="titulo">Sistema de Nomina</ui:insert></title>
+     
+     <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+          
+     <style>
+        body { background-color: #f8f9fa; }
+
+        .app-header {
+            background: #fff;
+            border-bottom: 1px solid #dee2e6;
+            padding: 14px 0;
+            margin-bottom: 0;
+        }
+        .app-header h1 {
+            font-size: 1.1rem; font-weight: 600;
+            color: #198754; margin: 0;
+        }
+        .app-header p { font-size: 0.78rem; color: #6c757d; margin: 0; }
+
+        .logo-box {
+            width: 38px; height: 38px; background: #198754;
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; color: #fff;
+            font-size: 1.1rem; font-weight: bold;
+        }
+
+        /* Barra de navegacion */
+        .nav-bar {
+            background-color: #157347;
+            padding: 0 1rem;
+        }
+        .nav-bar a {
+            color: rgba(255,255,255,0.85) !important;
+            font-size: 0.88rem;
+            padding: 10px 16px;
+            display: inline-block;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+        .nav-bar a:hover {
+            background: rgba(255,255,255,0.12);
+            color: #fff !important;
+        }
+        .nav-bar a.activo {
+            color: #fff !important;
+            font-weight: 600;
+            border-bottom: 2px solid #fff;
+        }
+
+        .contenido-principal {
+            padding: 2rem 0;
+            min-height: 70vh;
+        }
+
+        .app-footer {
+            background: #fff;
+            border-top: 1px solid #dee2e6;
+            padding: 14px 0;
+            text-align: center;
+            font-size: 0.78rem;
+            color: #6c757d;
+        }
+    </style>
+     
+    <ui:insert name="estilos"/>
+</h:head>       
+
+<h:body>
+
+    <!-- ENCABEZADO FIJO -->
+    <div class="app-header">
+        <div class="container d-flex align-items-center gap-3">
+            <div class="logo-box">N</div>
+            <div>
+                <h1>Sistema de Nomina</h1>
+                <p>Kevin Garzon &#8212; Programacion Avanzada &#8212; Universidad Distrital 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENU DE NAVEGACION FIJO -->
+    <div class="nav-bar">
+        <div class="container">
+            <a href="#{request.contextPath}/index.xhtml">&#127968; Inicio</a>
+            <a href="#{request.contextPath}/menu.xhtml">&#128203; Nomina</a>
+            <a href="#{request.contextPath}/registro.xhtml">&#128100; Registrar</a>
+            <a href="#{request.contextPath}/gestion.xhtml">&#128202; Empleados</a>
+        </div>
+    </div>
+
+    <!-- CONTENIDO: cada pagina define esta zona -->
+    <div class="contenido-principal">
+        <div class="container">
+            <ui:insert name="contenido">
+                <p>Contenido por defecto.</p>
+            </ui:insert>
+        </div>
+    </div>
+
+    <!-- PIE DE PAGINA FIJO -->
+    <div class="app-footer">
+        <div class="container">
+            Kevin Garzon &mdash; Programacion Avanzada &mdash; Universidad Distrital &mdash; 2026
+        </div>
+    </div>
+
+</h:body>
+</html>
