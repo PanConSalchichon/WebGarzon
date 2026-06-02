@@ -140,6 +140,14 @@ public class NominaBean implements Serializable {
     }
 
     /**
+     * Elimina una nomina del historial por su id.
+     */
+    public void eliminarNomina(Long id) {
+        nominaService.eliminarNomina(id);
+        addInfo(null, "Nomina eliminada del historial.");
+    }
+    
+    /**
      * Cancela la edicion en curso.
      */
     public void cancelarEdicion() {
