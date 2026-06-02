@@ -22,6 +22,9 @@ public class Persona implements Serializable {
 
     @Column(name = "apellidos", nullable = false, length = 100)
     private String apellidos;
+    
+    @Column(name = "cc", nullable = false, unique = true)
+    private long cc;
 
     @Column(name = "telefono", length = 15)
     private String telefono;
@@ -31,7 +34,8 @@ public class Persona implements Serializable {
 
     public Persona() {}
 
-    public Persona(String nombres, String apellidos, String telefono, String correo) {
+    public Persona(long cc, String nombres, String apellidos, String telefono, String correo) {
+        this.cc = cc;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
@@ -45,6 +49,9 @@ public class Persona implements Serializable {
     public String getApellidos() { return apellidos; }
     public void setApellidos(String apellidos) { this.apellidos = apellidos; }
 
+    public long getCc() { return cc; }
+    public void setCc(long cc) { this.cc = cc; }
+    
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
 

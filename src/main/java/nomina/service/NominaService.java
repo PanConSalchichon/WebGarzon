@@ -231,9 +231,13 @@ public class NominaService {
      * @param emp Empleado a validar
      * @return Lista de mensajes de error; vacia si no hay duplicados
      */
+    
     private List<String> validarDuplicadosEmpleado(Empleado emp) {
         List<String> errores = new ArrayList<>();
 
+        if (empleadoDAO.existeCc(emp.getCc(), emp.getId())) {
+            errores.add("La cedula " + emp.getCc() + " ya esta registrada.");
+        }
         if (empleadoDAO.existeCorreo(emp.getCorreo(), emp.getId())) {
             errores.add("El correo " + emp.getCorreo() + " ya esta registrado.");
         }

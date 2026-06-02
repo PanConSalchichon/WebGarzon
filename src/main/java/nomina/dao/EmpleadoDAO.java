@@ -154,6 +154,22 @@ public class EmpleadoDAO {
     // CONSULTAS DE VALIDACION
     // -----------------------------------------------------------------------
 
+    public boolean existeCc(long cc, Long idExcluir) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(e) FROM Empleado e " +
+                "WHERE e.cc = :cc AND e.id <> :id",
+                Long.class
+            );
+            query.setParameter("cc", cc);
+            query.setParameter("id", idExcluir != null ? idExcluir : -1L);
+            return query.getSingleResult() > 0;
+        } finally {
+            em.close();
+        }
+    }
+    
     /**
      * Verifica si ya existe un empleado con ese correo.
      * Se usa antes de guardar para evitar duplicados.

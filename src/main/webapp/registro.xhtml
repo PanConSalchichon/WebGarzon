@@ -119,14 +119,14 @@
 
                         <!-- Identificacion -->
                         <div class="mb-3">
-                            <label class="field-label">Identificacion *</label>
-                            <h:inputText id="identificacion"
-                                         value="#{nominaBean.empleado.id_p}"
+                            <label class="field-label">Cedula de ciudadania *</label>
+                            <h:inputText id="cc"
+                                         value="#{nominaBean.empleado.cc}"
                                          required="true"
-                                         requiredMessage="La identificacion es obligatoria."
+                                         requiredMessage="La cedula es obligatoria."
                                          styleClass="field-input"
                                          converterMessage="Solo se permiten numeros enteros."/>
-                            <h:message for="identificacion" styleClass="field-error"/>
+                            <h:message for="cc" styleClass="field-error"/>
                         </div>
 
                         <!-- Nombres -->
@@ -191,7 +191,24 @@
                             </h:selectOneMenu>
                             <h:message for="salario" styleClass="field-error"/>
                         </div>
-
+                        
+                        <!-- Departamento -->                        
+                        <div class="mb-3">
+                            <label class="field-label">Departamento *</label>
+                            <h:selectOneMenu id="departamento"
+                                             value="#{nominaBean.departamentoSeleccionadoId}"
+                                             required="true"
+                                             requiredMessage="Seleccione un departamento."
+                                             styleClass="field-input">
+                                <f:selectItem itemLabel="Seleccione..." itemValue=""/>
+                                <f:selectItems value="#{nominaBean.listaDepartamentos}"
+                                               var="dep"
+                                               itemLabel="#{dep.nombre}"
+                                               itemValue="#{dep.id}"/>
+                            </h:selectOneMenu>
+                            <h:message for="departamento" styleClass="field-error"/>
+                        </div>
+                        
                         <!-- Dias trabajados -->
                         <div class="mb-3">
                             <label class="field-label">Dias trabajados * (1 - 30)</label>
@@ -246,8 +263,8 @@
                                     </span>
                                 </div>
                                 <div class="dato-item">
-                                    <label>Identificacion</label>
-                                    <span>#{nominaBean.nominaResultado.empleado.id_p}</span>
+                                    <label>Cedula</label>
+                                    <span>#{nominaBean.nominaResultado.empleado.cc}</span>
                                 </div>
                                 <div class="dato-item">
                                     <label>Salario basico</label>

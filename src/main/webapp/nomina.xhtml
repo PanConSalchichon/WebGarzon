@@ -23,13 +23,13 @@
 
                         <h:panelGrid columns="3" layout="grid" style="width:100%">
 
-                            <p:outputLabel value="Identificacion *"/>
-                            <p:inputNumber id="id"
-                                           value="#{nominaBean.empleado.id_p}"
+                            <p:outputLabel value="Cedula de ciudadania *"/>
+                            <p:inputNumber id="cc"
+                                           value="#{nominaBean.empleado.cc}"
                                            decimalPlaces="0"
                                            required="true"
                                            requiredMessage="Obligatorio"/>
-                            <p:message for="id"/>
+                            <p:message for="cc"/>
 
                             <p:outputLabel value="Nombres *"/>
                             <p:inputText id="nombres"
@@ -117,8 +117,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Identificacion:</th>
-                                <td>#{nominaBean.nominaResultado.empleado.id_p}</td>
+                                <th>Cedula:</th>
+                                <td>#{nominaBean.nominaResultado.empleado.cc}</td>
                             </tr>
                             <tr>
                                 <th>Salario Devengado:</th>
@@ -189,8 +189,11 @@
                     <p:column headerText="N°">
                         <h:outputText value="#{nominaBean.listaEmpleados.indexOf(emp) + 1}"/>
                     </p:column>
-                    <p:column headerText="Identificacion">
-                        <h:outputText value="#{emp.id_p}"/>
+                    <p:column headerText="ID">
+                        <h:outputText value="#{emp.id}"/>
+                    </p:column>
+                    <p:column headerText="Cedula">
+                        <h:outputText value="#{emp.cc}"/>
                     </p:column>
                     <p:column headerText="Nombres">
                         <h:outputText value="#{emp.nombres}"/>

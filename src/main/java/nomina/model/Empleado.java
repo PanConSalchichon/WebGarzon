@@ -58,10 +58,8 @@ public class Empleado extends Persona {
 
     public Empleado() {}
 
-    public Empleado(String nombres, String apellidos, String telefono,
-                    String correo, double salarioBasico, int diasTrabajados,
-                    Departamento departamento) {
-        super(nombres, apellidos, telefono, correo);
+    public Empleado(long cc, String nombres, String apellidos, String telefono, String correo, double salarioBasico, int diasTrabajados, Departamento departamento) {
+        super(cc, nombres, apellidos, telefono, correo);
         this.salarioBasico = salarioBasico;
         this.diasTrabajados = diasTrabajados;
         this.departamento = departamento;
