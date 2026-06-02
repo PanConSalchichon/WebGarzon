@@ -1,53 +1,85 @@
 package nomina.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Clase que representa a un Empleado dentro del sistema de nómina.
- * Hereda de la clase Persona, agregando atributos específicos laborales
- * como el salario básico y los días trabajados.
- * 
+ * Entidad JPA que representa un empleado del sistema de nomina.
+ * Hereda los campos personales de Persona via @MappedSuperclass.
  */
+@Entity
+@Table(name = "empleado")
 public class Empleado extends Persona {
-    
+
+    /**
+     * Clave primaria generada automaticamente por MySQL (AUTO_INCREMENT).
+     * Reemplaza al id_p anterior que era ingresado manualmente.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "salario_basico", nullable = false)
     private double salarioBasico;
+
+    @Column(name = "dias_trabajados", nullable = false)
     private int diasTrabajados;
 
     /**
-     * Constructor por defecto requerido por los frameworks (JSF/JPA).
+     * Relacion muchos a uno con Departamento.
+     * Muchos empleados pueden pertenecer a un departamento.
+     *
+     * @JoinColumn name="departamento_id" → nombre de la clave foranea en la tabla empleado.
+     * fetch=LAZY → el departamento NO se carga de BD hasta que se acceda a el.
      */
-    public Empleado() {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "departamento_id", nullable = false)
+    private Departamento departamento;
 
     /**
-     * Constructor parametrizado para crear un empleado con todos sus datos.
-     * @param id_p Identificación del empleado
-     * @param nombres Nombres del empleado
-     * @param apellidos Apellidos del empleado
-     * @param telefono Teléfono de contacto
-     * @param correo Correo electrónico
-     * @param salarioBasico Salario básico mensual pactado
-     * @param diasTrabajados Días laborados en el periodo a liquidar
+     * Historial de nominas del empleado.
+     * Un empleado puede tener multiples nominas (una por periodo).
      */
-    public Empleado(long id_p, String nombres, String apellidos, String telefono, String correo, double salarioBasico, int diasTrabajados) {
-        super(id_p, nombres, apellidos, telefono, correo);
+    @OneToMany(mappedBy = "empleado",
+               cascade = {jakarta.persistence.CascadeType.PERSIST,
+                          jakarta.persistence.CascadeType.MERGE},
+               fetch = FetchType.LAZY)
+    private List<Nomina> nominas = new ArrayList<>();
+
+    public Empleado() {}
+
+    public Empleado(String nombres, String apellidos, String telefono,
+                    String correo, double salarioBasico, int diasTrabajados,
+                    Departamento departamento) {
+        super(nombres, apellidos, telefono, correo);
         this.salarioBasico = salarioBasico;
         this.diasTrabajados = diasTrabajados;
+        this.departamento = departamento;
     }
 
     // Getters y Setters
-    
-    public double getSalarioBasico() {
-        return salarioBasico;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setSalarioBasico(double salarioBasico) {
-        this.salarioBasico = salarioBasico;
-    }
+    public double getSalarioBasico() { return salarioBasico; }
+    public void setSalarioBasico(double salarioBasico) { this.salarioBasico = salarioBasico; }
 
-    public int getDiasTrabajados() {
-        return diasTrabajados;
-    }
+    public int getDiasTrabajados() { return diasTrabajados; }
+    public void setDiasTrabajados(int diasTrabajados) { this.diasTrabajados = diasTrabajados; }
 
-    public void setDiasTrabajados(int diasTrabajados) {
-        this.diasTrabajados = diasTrabajados;
-    }
+    public Departamento getDepartamento() { return departamento; }
+    public void setDepartamento(Departamento departamento) { this.departamento = departamento; }
+
+    public List<Nomina> getNominas() { return nominas; }
+    public void setNominas(List<Nomina> nominas) { this.nominas = nominas; }
 }
