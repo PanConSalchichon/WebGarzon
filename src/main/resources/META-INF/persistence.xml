@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                 https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+
+    <persistence-unit name="nominaPU" transaction-type="RESOURCE_LOCAL">
+
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <!-- Entidades que JPA va a gestionar -->
+        <class>nomina.model.Departamento</class>
+        <class>nomina.model.Empleado</class>
+        <class>nomina.model.Nomina</class>
+
+        <properties>
+            <!-- Conexion MySQL -->
+            <property name="jakarta.persistence.jdbc.driver"
+                      value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/nomina_ud?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="jakarta.persistence.jdbc.user"
+                      value="root"/>
+            <property name="jakarta.persistence.jdbc.password"
+                      value="TU_PASSWORD"/>
+
+            <!-- Crea las tablas automaticamente si no existen -->
+            <property name="eclipselink.ddl-generation"
+                      value="create-or-extend-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode"
+                      value="database"/>
+
+            <!-- Muestra el SQL generado en la consola — util para depurar -->
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters"  value="true"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
