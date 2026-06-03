@@ -22,10 +22,10 @@ import nomina.model.Nomina;
 public class NominaService {
 
     // -----------------------------------------------------------------------
-    // Constantes legales colombianas (2025)
+    // Constantes legales colombianas 2026
     // -----------------------------------------------------------------------
-    private static final double SMMLV                   = 1300000;
-    private static final double AUXILIO_TRANSPORTE_MENSUAL = 162000;
+    private static final double SMMLV                   = 1750905;
+    private static final double AUXILIO_TRANSPORTE_MENSUAL = 249095;
 
     // -----------------------------------------------------------------------
     // DAOs inyectados por CDI
