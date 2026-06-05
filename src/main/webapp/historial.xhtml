@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/plantillaBase.xhtml">
+
+    <ui:define name="titulo">Nomina - Historial</ui:define>
+
+    <ui:define name="estilos">
+        <style>
+            .table-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .table-card .table { margin: 0; font-size: 0.85rem; }
+            .table-card .table thead th {
+                background: #f8f9fa;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #6c757d;
+                font-weight: 500;
+            }
+            .table-card .table tbody tr:hover { background: #f0faf4; }
+            .badge-neto {
+                background: #d1e7dd;
+                color: #0a3622;
+                padding: 4px 10px;
+                border-radius: 20px;
+                font-size: 0.82rem;
+                font-weight: 600;
+            }
+            .badge-descuento {
+                background: #f8d7da;
+                color: #842029;
+                padding: 3px 8px;
+                border-radius: 20px;
+                font-size: 0.78rem;
+                font-weight: 500;
+            }
+            .table-header {
+                padding: 0.85rem 1.25rem;
+                border-bottom: 1px solid #dee2e6;
+                background: #f8f9fa;
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="contenido">
+
+        <h4 class="mb-1 fw-semibold">Historial de Nominas</h4>
+        <p class="text-muted mb-4" style="font-size:0.88rem">
+            Registro de todas las nominas calculadas y persistidas en la base de datos.
+        </p>
+
+        <h:form id="formHistorial">
+
+            <h:messages globalOnly="true" styleClass="alert alert-info" layout="list"/>
+
+            <h:panelGroup rendered="#{empty nominaBean.listaNominas}">
+                <div class="alert alert-warning d-flex align-items-center gap-2">
+                    <span style="font-size:1.2rem;">&#9888;</span>
+                    <span>
+                        No hay nominas registradas aun.
+                        <a href="registro.xhtml" style="color:#856404;">
+                            Calcule una aqui.
+                        </a>
+                    </span>
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not empty nominaBean.listaNominas}">
+                <div class="table-card">
+                    <div class="table-header">
+                        Total: #{nominaBean.listaNominas.size()} nominas registradas
+                    </div>
+                    <h:dataTable value="#{nominaBean.listaNominas}"
+                                 var="nom"
+                                 styleClass="table table-hover table-bordered"
+                                 headerClass="table-light"
+                                 rowClasses="align-middle">
+
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            <h:outputText value="#{nom.id}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Fecha</f:facet>
+                            <h:outputText value="#{nom.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Empleado</f:facet>
+                            <h:outputText value="#{nom.empleado.nombres} #{nom.empleado.apellidos}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Departamento</f:facet>
+                            <h:outputText value="#{nom.empleado.departamento.nombre}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Devengado</f:facet>
+                            $&#160;<h:outputText value="#{nom.salarioCalculado}">
+                                <f:convertNumber pattern="###,###.##"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Auxilio</f:facet>
+                            $&#160;<h:outputText value="#{nom.auxilioTransporte}">
+                                <f:convertNumber pattern="###,###.##"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Desc. Salud</f:facet>
+                            <span class="badge-descuento">
+                                -$&#160;<h:outputText value="#{nom.descuentoSalud}">
+                                    <f:convertNumber pattern="###,###.##"/>
+                                </h:outputText>
+                            </span>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Desc. Pension</f:facet>
+                            <span class="badge-descuento">
+                                -$&#160;<h:outputText value="#{nom.descuentoPension}">
+                                    <f:convertNumber pattern="###,###.##"/>
+                                </h:outputText>
+                            </span>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Neto</f:facet>
+                            <span class="badge-neto">
+                                $&#160;<h:outputText value="#{nom.netoPagar}">
+                                    <f:convertNumber pattern="###,###.##"/>
+                                </h:outputText>
+                            </span>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Accion</f:facet>
+                            <h:commandButton value="Eliminar"
+                                             action="#{nominaBean.eliminarNomina(nom.id)}"
+                                             styleClass="btn btn-danger btn-sm"
+                                             update="formHistorial"
+                                             onclick="return confirm('Eliminar esta nomina del historial?')"/>
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+            </h:panelGroup>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+</html>

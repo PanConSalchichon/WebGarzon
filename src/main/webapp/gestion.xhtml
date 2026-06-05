@@ -1,235 +1,317 @@
 <!DOCTYPE html>
-<!--
-    gestion.xhtml
-    Vista de consulta de empleados registrados en el sistema.
-
-    Responsabilidades:
-      - Mostrar en una tabla todos los empleados guardados durante la sesion.
-      - Mostrar un mensaje informativo si aun no hay empleados registrados.
-      - No realiza calculos; solo presenta datos del NominaService.
-
-    Bean utilizado: #{nominaBean} (NominaBean - @ViewScoped)
-    No usa PrimeFaces; usa unicamente componentes h: estandar de JSF.
--->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:ui="jakarta.faces.facelets">
 
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Nomina - Empleados Registrados</title>
-    <!-- Bootstrap 5 para layout y estilos -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-    <style>
-        /* Fondo general */
-        body { background-color: #f8f9fa; }
+<ui:composition template="/WEB-INF/templates/plantillaBase.xhtml">
 
-        /* Barra superior */
-        .app-header {
-            background: #fff;
-            border-bottom: 1px solid #dee2e6;
-            padding: 14px 0;
-            margin-bottom: 2rem;
-        }
-        .app-header h1 {
-            font-size: 1.1rem; font-weight: 600;
-            color: #198754; margin: 0;
-        }
-        .app-header p { font-size: 0.78rem; color: #6c757d; margin: 0; }
+    <ui:define name="titulo">Nomina - Empleados</ui:define>
 
-        /* Logo cuadrado verde */
-        .logo-box {
-            width: 38px; height: 38px; background: #198754;
-            border-radius: 8px; display: flex; align-items: center;
-            justify-content: center; color: #fff;
-            font-size: 1.1rem; font-weight: bold;
-        }
+    <ui:define name="estilos">
+        <style>
+            .table-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .table-card .table { margin: 0; font-size: 0.85rem; }
+            .table-card .table thead th {
+                background: #f8f9fa;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #6c757d;
+                font-weight: 500;
+            }
+            .table-card .table tbody tr:hover { background: #f0faf4; }
 
-        /* Migas de pan */
-        .breadcrumb-bar { font-size: 0.82rem; color: #6c757d; margin-bottom: 1.5rem; }
-        .breadcrumb-bar a { color: #198754; text-decoration: none; }
-        .breadcrumb-bar a:hover { text-decoration: underline; }
+            .badge-salario {
+                background: #d1e7dd;
+                color: #0a3622;
+                padding: 3px 8px;
+                border-radius: 20px;
+                font-size: 0.78rem;
+                font-weight: 500;
+            }
+            .badge-dep {
+                background: #cfe2ff;
+                color: #084298;
+                padding: 3px 8px;
+                border-radius: 20px;
+                font-size: 0.78rem;
+                font-weight: 500;
+            }
+            .registro-count {
+                font-size: 0.82rem;
+                color: #6c757d;
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid #dee2e6;
+            }
+            .registro-count strong { color: #198754; }
 
-        /* Tarjeta contenedora de la tabla */
-        .table-card {
-            background: #fff; border: 1px solid #dee2e6;
-            border-radius: 12px; overflow: hidden;
-        }
-        .table-card .table { margin: 0; font-size: 0.88rem; }
-        .table-card .table thead th {
-            background: #f8f9fa; font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 0.04em;
-            color: #6c757d; font-weight: 500;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .table-card .table tbody tr:hover { background: #f0faf4; }
+            /* Panel de edicion inline — aparece encima de la tabla */
+            .edicion-panel {
+                background: #fffbea;
+                border: 1px solid #ffc107;
+                border-radius: 12px;
+                padding: 1.25rem;
+                margin-bottom: 1rem;
+            }
+            .edicion-panel h6 {
+                color: #856404;
+                font-weight: 600;
+                margin-bottom: 1rem;
+            }
+            .field-label {
+                display: block;
+                font-size: 0.82rem;
+                font-weight: 500;
+                color: #495057;
+                margin-bottom: 4px;
+            }
+            .field-input {
+                width: 100%;
+                padding: 0.375rem 0.75rem;
+                font-size: 0.88rem;
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                box-sizing: border-box;
+            }
+            .field-input:focus {
+                border-color: #198754;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(25,135,84,0.25);
+            }
+            .field-error {
+                font-size: 0.76rem;
+                color: #dc3545;
+                margin-top: 3px;
+                display: block;
+            }
+        </style>
+    </ui:define>
 
-        /* Badge verde para el salario */
-        .badge-salario {
-            background: #d1e7dd; color: #0a3622;
-            padding: 3px 8px; border-radius: 20px;
-            font-size: 0.78rem; font-weight: 500;
-        }
+    <ui:define name="contenido">
 
-        /* Contador de registros */
-        .registro-count {
-            font-size: 0.82rem; color: #6c757d;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .registro-count strong { color: #198754; }
-    </style>
-</h:head>
-
-<h:body>
-
-    <!-- ===== CABECERA DE LA APLICACION ===== -->
-    <div class="app-header">
-        <div class="container d-flex align-items-center gap-3">
-            <div class="logo-box">N</div>
-            <div>
-                <h1>Sistema de Nomina</h1>
-                <p>Kevin Garzon &#8212; Programacion Avanzada &#8212; Universidad Distrital 2026</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-
-        <!-- ===== MIGAS DE PAN ===== -->
-        <div class="breadcrumb-bar">
-            <a href="index.xhtml">Inicio</a> /
-            <a href="menu.xhtml">Nomina</a> /
-            Empleados registrados
-        </div>
-
-        <!-- ===== TITULO DE SECCION ===== -->
         <h4 class="mb-1 fw-semibold">Empleados registrados</h4>
         <p class="text-muted mb-4" style="font-size:0.88rem">
-            Listado de todos los empleados ingresados durante esta sesion.
+            Consulte, edite y elimine los empleados del sistema.
         </p>
 
-        <!--
-            No se necesita h:form aqui porque esta vista solo muestra datos,
-            no realiza ningun envio de formulario.
-        -->
+        <h:form id="formGestion">
 
-        <!--
-            Panel que se muestra SOLO cuando la lista esta vacia.
-            rendered evalua la expresion en el servidor antes de generar HTML.
-        -->
-        <h:panelGroup rendered="#{empty nominaBean.listaEmpleados}">
-            <div class="alert alert-warning d-flex align-items-center gap-2">
-                <span style="font-size:1.2rem;">&#9888;</span>
-                <span>
-                    No hay empleados registrados aun.
-                    <a href="registro.xhtml" style="color:#856404;">Registre uno aqui.</a>
-                </span>
-            </div>
-        </h:panelGroup>
+            <!-- Mensajes globales -->
+            <h:messages globalOnly="true" styleClass="alert alert-info" layout="list"/>
 
-        <!--
-            Panel que se muestra SOLO cuando hay al menos un empleado.
-            Contiene la tabla de datos.
-        -->
-        <h:panelGroup rendered="#{not empty nominaBean.listaEmpleados}">
-            <div class="table-card">
+            <!-- PANEL DE EDICION: visible solo cuando hay un empleado en edicion -->
+            <h:panelGroup id="panelEdicion"
+                          rendered="#{nominaBean.empleadoEditando != null}">
+                <div class="edicion-panel">
+                    <h6>&#9998; Editando empleado</h6>
+                    <div class="row g-3">
 
-                <!-- Contador de registros -->
-                <div class="registro-count">
-                    Total registrados: <strong>#{nominaBean.listaEmpleados.size()}</strong>
+                        <div class="col-md-3">
+                            <label class="field-label">Nombres *</label>
+                            <h:inputText id="editNombres"
+                                         value="#{nominaBean.empleadoEditando.nombres}"
+                                         required="true"
+                                         styleClass="field-input"/>
+                            <h:message for="editNombres" styleClass="field-error"/>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="field-label">Apellidos *</label>
+                            <h:inputText id="editApellidos"
+                                         value="#{nominaBean.empleadoEditando.apellidos}"
+                                         required="true"
+                                         styleClass="field-input"/>
+                            <h:message for="editApellidos" styleClass="field-error"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="field-label">Telefono *</label>
+                            <h:inputText id="editTelefono"
+                                         value="#{nominaBean.empleadoEditando.telefono}"
+                                         required="true"
+                                         styleClass="field-input"/>
+                            <h:message for="editTelefono" styleClass="field-error"/>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="field-label">Correo *</label>
+                            <h:inputText id="editCorreo"
+                                         value="#{nominaBean.empleadoEditando.correo}"
+                                         required="true"
+                                         styleClass="field-input"/>
+                            <h:message for="editCorreo" styleClass="field-error"/>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="field-label">Salario basico *</label>
+                            <h:selectOneMenu id="editSalario"
+                                             value="#{nominaBean.empleadoEditando.salarioBasico}"
+                                             required="true"
+                                             styleClass="field-input">
+                                <f:selectItem itemLabel="Seleccione..." itemValue=""/>
+                                <f:selectItem itemLabel="$1.300.000 (1 SMMLV)" itemValue="1300000"/>
+                                <f:selectItem itemLabel="$2.000.000"            itemValue="2000000"/>
+                                <f:selectItem itemLabel="$2.500.000"            itemValue="2500000"/>
+                                <f:selectItem itemLabel="$3.000.000"            itemValue="3000000"/>
+                                <f:selectItem itemLabel="$4.000.000"            itemValue="4000000"/>
+                                <f:selectItem itemLabel="$5.000.000"            itemValue="5000000"/>
+                            </h:selectOneMenu>
+                            <h:message for="editSalario" styleClass="field-error"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="field-label">Dias trabajados *</label>
+                            <h:inputText id="editDias"
+                                         value="#{nominaBean.empleadoEditando.diasTrabajados}"
+                                         required="true"
+                                         styleClass="field-input">
+                                <f:validateLongRange minimum="1" maximum="30"/>
+                            </h:inputText>
+                            <h:message for="editDias" styleClass="field-error"/>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="field-label">Departamento *</label>
+                            <h:selectOneMenu id="editDep"
+                                             value="#{nominaBean.departamentoSeleccionadoId}"
+                                             required="true"
+                                             styleClass="field-input">
+                                <f:selectItem itemLabel="Seleccione..." itemValue=""/>
+                                <f:selectItems value="#{nominaBean.listaDepartamentos}"
+                                               var="dep"
+                                               itemLabel="#{dep.nombre}"
+                                               itemValue="#{dep.id}"/>
+                            </h:selectOneMenu>
+                            <h:message for="editDep" styleClass="field-error"/>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <h:commandButton value="Guardar cambios"
+                                         action="#{nominaBean.guardarEdicion()}"
+                                         styleClass="btn btn-warning btn-sm"
+                                         update="formGestion"/>
+                        <h:commandButton value="Cancelar"
+                                         action="#{nominaBean.cancelarEdicion()}"
+                                         immediate="true"
+                                         styleClass="btn btn-secondary btn-sm"
+                                         update="formGestion"/>
+                    </div>
                 </div>
+            </h:panelGroup>
 
-                <!--
-                    h:dataTable itera la lista de empleados del bean.
-                    var="emp" define el nombre de la variable de iteracion.
-                    Cada h:column es una columna de la tabla HTML generada.
-                -->
-                <h:dataTable
-                    value="#{nominaBean.listaEmpleados}"
-                    var="emp"
-                    styleClass="table table-hover table-bordered"
-                    headerClass="table-light"
-                    rowClasses="align-middle">
+            <!-- TABLA DE EMPLEADOS -->
+            <h:panelGroup id="panelTabla">
 
-                    <!-- Columna: numero de fila -->
-                    <h:column>
-                        <f:facet name="header">N&#176;</f:facet>
-                        <!--
-                            No hay indice nativo en h:dataTable.
-                            Se usa indexOf para obtener la posicion en la lista.
-                        -->
-                        #{nominaBean.listaEmpleados.indexOf(emp) + 1}
-                    </h:column>
-
-                    <!-- Columna: identificacion -->
-                    <h:column>
-                        <f:facet name="header">Identificacion</f:facet>
-                        <h:outputText value="#{emp.id_p}"/>
-                    </h:column>
-
-                    <!-- Columna: nombres -->
-                    <h:column>
-                        <f:facet name="header">Nombres</f:facet>
-                        <h:outputText value="#{emp.nombres}"/>
-                    </h:column>
-
-                    <!-- Columna: apellidos -->
-                    <h:column>
-                        <f:facet name="header">Apellidos</f:facet>
-                        <h:outputText value="#{emp.apellidos}"/>
-                    </h:column>
-
-                    <!-- Columna: telefono -->
-                    <h:column>
-                        <f:facet name="header">Telefono</f:facet>
-                        <h:outputText value="#{emp.telefono}"/>
-                    </h:column>
-
-                    <!-- Columna: correo -->
-                    <h:column>
-                        <f:facet name="header">Correo</f:facet>
-                        <h:outputText value="#{emp.correo}"/>
-                    </h:column>
-
-                    <!-- Columna: salario basico con formato de moneda -->
-                    <h:column>
-                        <f:facet name="header">Salario basico</f:facet>
-                        <span class="badge-salario">
-                            $&#160;<h:outputText value="#{emp.salarioBasico}">
-                                <!--
-                                    f:convertNumber formatea el double como numero
-                                    con separador de miles y sin decimales.
-                                -->
-                                <f:convertNumber pattern="###,###"/>
-                            </h:outputText>
+                <h:panelGroup rendered="#{empty nominaBean.listaEmpleados}">
+                    <div class="alert alert-warning d-flex align-items-center gap-2">
+                        <span style="font-size:1.2rem;">&#9888;</span>
+                        <span>
+                            No hay empleados registrados aun.
+                            <a href="registro.xhtml" style="color:#856404;">
+                                Registre uno aqui.
+                            </a>
                         </span>
-                    </h:column>
+                    </div>
+                </h:panelGroup>
 
-                    <!-- Columna: dias trabajados -->
-                    <h:column>
-                        <f:facet name="header">Dias</f:facet>
-                        <h:outputText value="#{emp.diasTrabajados}"/>
-                    </h:column>
+                <h:panelGroup rendered="#{not empty nominaBean.listaEmpleados}">
+                    <div class="table-card">
+                        <div class="registro-count">
+                            Total: <strong>#{nominaBean.listaEmpleados.size()}</strong> empleados
+                        </div>
+                        <h:dataTable value="#{nominaBean.listaEmpleados}"
+                                     var="emp"
+                                     styleClass="table table-hover table-bordered"
+                                     headerClass="table-light"
+                                     rowClasses="align-middle">
 
-                </h:dataTable>
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                <h:outputText value="#{emp.id}"/>
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">Cedula</f:facet>
+                                <h:outputText value="#{emp.cc}"/>
+                            </h:column>
 
-            </div><!-- fin table-card -->
-        </h:panelGroup>
+                            <h:column>
+                                <f:facet name="header">Nombres</f:facet>
+                                <h:outputText value="#{emp.nombres}"/>
+                            </h:column>
 
-        <!-- Boton para ir a registrar otro empleado -->
-        <div class="mt-3">
-            <a href="registro.xhtml" class="btn btn-success btn-sm">
-                + Registrar otro empleado
-            </a>
-            <a href="menu.xhtml" class="btn btn-outline-secondary btn-sm ms-2">
-                Volver al menu
-            </a>
-        </div>
+                            <h:column>
+                                <f:facet name="header">Apellidos</f:facet>
+                                <h:outputText value="#{emp.apellidos}"/>
+                            </h:column>
 
-    </div><!-- fin container -->
+                            <h:column>
+                                <f:facet name="header">Telefono</f:facet>
+                                <h:outputText value="#{emp.telefono}"/>
+                            </h:column>
 
-</h:body>
+                            <h:column>
+                                <f:facet name="header">Correo</f:facet>
+                                <h:outputText value="#{emp.correo}"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Departamento</f:facet>
+                                <span class="badge-dep">
+                                    <h:outputText value="#{emp.departamento.nombre}"/>
+                                </span>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Salario</f:facet>
+                                <span class="badge-salario">
+                                    $&#160;<h:outputText value="#{emp.salarioBasico}">
+                                        <f:convertNumber pattern="###,###"/>
+                                    </h:outputText>
+                                </span>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Dias</f:facet>
+                                <h:outputText value="#{emp.diasTrabajados}"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Acciones</f:facet>
+                                <h:commandButton value="Editar"
+                                                 action="#{nominaBean.prepararEdicion(emp)}"
+                                                 styleClass="btn btn-warning btn-sm me-1"
+                                                 update="formGestion"/>
+                                <h:commandButton value="Eliminar"
+                                                 action="#{nominaBean.eliminarEmpleado(emp)}"
+                                                 styleClass="btn btn-danger btn-sm"
+                                                 update="formGestion"
+                                                 onclick="return confirm('Eliminar a #{emp.nombres} #{emp.apellidos} y su historial de nominas?')"/>
+                            </h:column>
+
+                        </h:dataTable>
+                    </div>
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+            <div class="mt-3">
+                <a href="registro.xhtml" class="btn btn-success btn-sm">
+                    + Registrar nuevo empleado
+                </a>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
 </html>

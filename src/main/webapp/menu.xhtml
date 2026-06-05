@@ -1,144 +1,68 @@
 <!DOCTYPE html>
-<!--
-    menu.xhtml
-    Vista principal del modulo de Nomina.
-    Actua como hub de navegacion hacia las dos funcionalidades:
-      1. Registrar empleado y calcular su nomina (registro.xhtml)
-      2. Ver todos los empleados registrados     (gestion.xhtml)
-
-    No requiere bean; es una vista de navegacion pura.
--->
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="jakarta.faces.facelets">
 
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Nomina - Menu</title>
-    <!-- Bootstrap 5 para el layout y estilos base -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-    <style>
-        /* Fondo general de la aplicacion */
-        body { background-color: #f8f9fa; }
+<ui:composition template="/WEB-INF/templates/plantillaBase.xhtml">
 
-        /* Barra superior con logo y titulo */
-        .app-header {
-            background: #fff;
-            border-bottom: 1px solid #dee2e6;
-            padding: 14px 0;
-            margin-bottom: 2rem;
-        }
-        .app-header h1 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #198754;
-            margin: 0;
-        }
-        .app-header p {
-            font-size: 0.78rem;
-            color: #6c757d;
-            margin: 0;
-        }
+    <ui:define name="titulo">Nomina - Menu</ui:define>
 
-        /* Cuadro verde del logo */
-        .logo-box {
-            width: 38px; height: 38px;
-            background: #198754;
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 1.1rem; font-weight: bold;
-        }
+    <ui:define name="estilos">
+        <style>
+            .menu-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                padding: 2rem 1.5rem;
+                text-align: center;
+                text-decoration: none;
+                color: inherit;
+                display: block;
+                transition: box-shadow 0.2s, transform 0.2s;
+            }
+            .menu-card:hover {
+                box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+                transform: translateY(-2px);
+                text-decoration: none;
+                color: inherit;
+            }
+            .menu-card .icon {
+                font-size: 2.2rem;
+                margin-bottom: 0.75rem;
+                display: block;
+            }
+            .menu-card h5 {
+                font-weight: 600;
+                font-size: 1rem;
+                margin-bottom: 0.4rem;
+            }
+            .menu-card p {
+                font-size: 0.83rem;
+                color: #6c757d;
+                margin: 0;
+            }
+        </style>
+    </ui:define>
 
-        /* Migas de pan (breadcrumb) */
-        .breadcrumb-bar {
-            font-size: 0.82rem;
-            color: #6c757d;
-            margin-bottom: 1.5rem;
-        }
-        .breadcrumb-bar a { color: #198754; text-decoration: none; }
-        .breadcrumb-bar a:hover { text-decoration: underline; }
+    <ui:define name="contenido">
 
-        /* Tarjetas del menu de opciones */
-        .menu-card {
-            background: #fff;
-            border: 1px solid #dee2e6;
-            border-radius: 12px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .menu-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-            transform: translateY(-2px);
-            text-decoration: none;
-            color: inherit;
-        }
-        .menu-card .icon {
-            font-size: 2.2rem;
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-        .menu-card h5 {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.4rem;
-        }
-        .menu-card p {
-            font-size: 0.83rem;
-            color: #6c757d;
-            margin: 0;
-        }
-    </style>
-</h:head>
-
-<h:body>
-
-    <!-- ===== CABECERA DE LA APLICACION ===== -->
-    <div class="app-header">
-        <div class="container d-flex align-items-center gap-3">
-            <div class="logo-box">N</div>
-            <div>
-                <h1>Sistema de Nomina</h1>
-                <p>Kevin Garzon &#8212; Programacion Avanzada &#8212; Universidad Distrital 2026</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-
-        <!-- ===== MIGAS DE PAN ===== -->
-        <div class="breadcrumb-bar">
-            <a href="index.xhtml">Inicio</a> / Nomina
-        </div>
-
-        <!-- ===== TITULO DE SECCION ===== -->
         <h4 class="mb-1 fw-semibold">Modulo de Nomina</h4>
         <p class="text-muted mb-4" style="font-size:0.88rem">
             Seleccione una opcion para continuar.
         </p>
 
-        <!-- ===== TARJETAS DE NAVEGACION ===== -->
-        <!--
-            h:link genera un enlace JSF con navegacion implicita.
-            outcome apunta al nombre del xhtml sin extension.
-        -->
         <div class="row g-3">
 
-            <!-- Opcion 1: Registrar empleado y calcular nomina -->
             <div class="col-md-6">
-                <h:link outcome="/registro" styleClass="menu-card">
+                <h:link outcome="registro" styleClass="menu-card">
                     <span class="icon">&#128100;</span>
                     <h5>Registrar y calcular</h5>
                     <p>Ingrese los datos del empleado y calcule su nomina.</p>
                 </h:link>
             </div>
 
-            <!-- Opcion 2: Ver historial de empleados registrados -->
             <div class="col-md-6">
-                <h:link outcome="/gestion" styleClass="menu-card">
+                <h:link outcome="gestion" styleClass="menu-card">
                     <span class="icon">&#128203;</span>
                     <h5>Empleados registrados</h5>
                     <p>Consulte todos los empleados ingresados al sistema.</p>
@@ -146,7 +70,8 @@
             </div>
 
         </div>
-    </div>
 
-</h:body>
+    </ui:define>
+
+</ui:composition>
 </html>

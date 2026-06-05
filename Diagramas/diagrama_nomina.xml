@@ -1,0 +1,370 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="Icin47TOlN_KnVwxlXae" name="Página-1">
+    <mxGraphModel dx="1012" dy="554" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lbl_model" parent="1" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;gradientColor=#97d077;" value="&lt;b&gt;model&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="160" x="240" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Persona" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=light-dark(#60A917,#1F2F1E);strokeColor=light-dark(#2D7600,#446E2C);fontSize=11;fontColor=light-dark(#FFFFFF,#FFFFFF);" value="Persona" vertex="1">
+          <mxGeometry height="200" width="260" x="30" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Persona_fields" parent="Persona" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- cc: long&lt;br/&gt;- nombres: String&lt;br/&gt;- apellidos: String&lt;br/&gt;- telefono: String&lt;br/&gt;- correo: String" vertex="1">
+          <mxGeometry height="85" width="260" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Persona_sep" parent="Persona" style="line;strokeColor=#6c8ebf;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="260" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="Persona_methods" parent="Persona" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ getCc(): long&lt;br/&gt;+ getNombres(): String&lt;br/&gt;+ getApellidos(): String&lt;br/&gt;+ getTelefono(): String&lt;br/&gt;+ getCorreo(): String" vertex="1">
+          <mxGeometry height="67" width="260" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="Departamento" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="Departamento" vertex="1">
+          <mxGeometry height="200" width="260" x="340" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Dep_fields" parent="Departamento" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- id: Long «PK, AUTO»&lt;br/&gt;- nombre: String&lt;br/&gt;- descripcion: String&lt;br/&gt;- empleados: List&lt;Empleado&gt;" vertex="1">
+          <mxGeometry height="75" width="260" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dep_sep" parent="Departamento" style="line;strokeColor=#82b366;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="260" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="Dep_methods" parent="Departamento" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ getId(): Long&lt;br/&gt;+ getNombre(): String&lt;br/&gt;+ getDescripcion(): String&lt;br/&gt;+ getEmpleados(): List&lt;Empleado&gt;" vertex="1">
+          <mxGeometry height="72" width="260" y="123" as="geometry" />
+        </mxCell>
+        <mxCell id="Empleado" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="Empleado" vertex="1">
+          <mxGeometry height="220" width="280" x="30" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="Emp_fields" parent="Empleado" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- id: Long «PK, AUTO»&lt;br/&gt;- salarioBasico: double&lt;br/&gt;- diasTrabajados: int&lt;br/&gt;- departamento: Departamento «FK»&lt;br/&gt;- nominas: List&lt;Nomina&gt;" vertex="1">
+          <mxGeometry height="90" width="280" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Emp_sep" parent="Empleado" style="line;strokeColor=#82b366;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="280" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="Emp_methods" parent="Empleado" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ getId(): Long&lt;br/&gt;+ getSalarioBasico(): double&lt;br/&gt;+ getDiasTrabajados(): int&lt;br/&gt;+ getDepartamento(): Departamento&lt;br/&gt;+ getNominas(): List&lt;Nomina&gt;" vertex="1">
+          <mxGeometry height="78" width="280" y="138" as="geometry" />
+        </mxCell>
+        <mxCell id="Nomina" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="Nomina" vertex="1">
+          <mxGeometry height="250" width="280" x="360" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="Nom_fields" parent="Nomina" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- id: Long «PK, AUTO»&lt;br/&gt;- empleado: Empleado «FK»&lt;br/&gt;- salarioCalculado: double&lt;br/&gt;- auxilioTransporte: double&lt;br/&gt;- descuentoSalud: double&lt;br/&gt;- descuentoPension: double&lt;br/&gt;- netoPagar: double&lt;br/&gt;- fecha: Date" vertex="1">
+          <mxGeometry height="135" width="280" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Nom_sep" parent="Nomina" style="line;strokeColor=#82b366;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="280" y="175" as="geometry" />
+        </mxCell>
+        <mxCell id="Nom_methods" parent="Nomina" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ getId(): Long&lt;br/&gt;+ getEmpleado(): Empleado&lt;br/&gt;+ getNetoPagar(): double&lt;br/&gt;+ getFecha(): Date" vertex="1">
+          <mxGeometry height="63" width="280" y="183" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_dao" parent="1" style="text;html=1;strokeColor=none;fillColor=#ffe6cc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontColor=#7d4f00;" value="&lt;b&gt;dao&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="160" x="745" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="DepDAO" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="DepartamentoDAO" vertex="1">
+          <mxGeometry height="200" width="270" x="690" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DepDAO_fields" parent="DepDAO" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;fontStyle=2;" value="(usa JPAUtil)" vertex="1">
+          <mxGeometry height="25" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DepDAO_sep" parent="DepDAO" style="line;strokeColor=#d79b00;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="270" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="DepDAO_methods" parent="DepDAO" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ guardar(Departamento)&lt;br/&gt;+ buscarPorId(Long): Departamento&lt;br/&gt;+ listarTodos(): List&lt;Departamento&gt;&lt;br/&gt;+ actualizar(Departamento)&lt;br/&gt;+ eliminar(Long)&lt;br/&gt;+ existeNombre(String): boolean" vertex="1">
+          <mxGeometry height="122" width="270" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="EmpDAO" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="&lt;b&gt;«ApplicationScoped»&lt;/b&gt;&lt;br/&gt;&lt;b&gt;EmpleadoDAO&lt;/b&gt;" vertex="1">
+          <mxGeometry height="240" width="270" x="690" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="EmpDAO_fields" parent="EmpDAO" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;fontStyle=2;" value="(usa JPAUtil)" vertex="1">
+          <mxGeometry height="25" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="EmpDAO_sep" parent="EmpDAO" style="line;strokeColor=#d79b00;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="270" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="EmpDAO_methods" parent="EmpDAO" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ guardar(Empleado)&lt;br/&gt;+ buscarPorId(Long): Empleado&lt;br/&gt;+ listarTodos(): List&lt;Empleado&gt;&lt;br/&gt;+ listarPorDepartamento(Long): List&lt;br/&gt;+ actualizar(Empleado)&lt;br/&gt;+ eliminar(Long)&lt;br/&gt;+ existeCorreo(String, Long): boolean&lt;br/&gt;+ existeTelefono(String, Long): boolean&lt;br/&gt;+ existeCc(long, Long): boolean" vertex="1">
+          <mxGeometry height="162" width="270" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="NomDAO" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="NominaDAO" vertex="1">
+          <mxGeometry height="190" width="270" x="690" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="NomDAO_fields" parent="NomDAO" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;fontStyle=2;" value="(usa JPAUtil)" vertex="1">
+          <mxGeometry height="25" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NomDAO_sep" parent="NomDAO" style="line;strokeColor=#d79b00;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="270" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="NomDAO_methods" parent="NomDAO" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ guardar(Nomina)&lt;br/&gt;+ listarTodas(): List&lt;Nomina&gt;&lt;br/&gt;+ listarPorEmpleado(Long): List&lt;br/&gt;+ eliminar(Long)&lt;br/&gt;+ eliminarPorEmpleado(Long)" vertex="1">
+          <mxGeometry height="112" width="270" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="JPAUtil" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="JPAUtil" vertex="1">
+          <mxGeometry height="145" width="270" x="690" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="JPAUtil_fields" parent="JPAUtil" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- PERSISTENCE_UNIT: String = &quot;nominaPU&quot;&lt;br/&gt;- emf: EntityManagerFactory" vertex="1">
+          <mxGeometry height="45" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JPAUtil_sep" parent="JPAUtil" style="line;strokeColor=#b85450;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="270" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="JPAUtil_methods" parent="JPAUtil" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ getEntityManager(): EntityManager&lt;br/&gt;+ close()" vertex="1">
+          <mxGeometry height="47" width="270" y="93" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_service" parent="1" style="text;html=1;strokeColor=none;fillColor=#e1d5e7;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontColor=#4a0072;" value="&lt;b&gt;«layer: service»&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="160" x="1030" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NomService" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="NominaService" vertex="1">
+          <mxGeometry height="430" width="295" x="1010" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Svc_fields" parent="NomService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- SMMLV: double = 1750905&lt;br&gt;- AUXILIO_TRANSPORTE: double = 249095&lt;br&gt;- departamentoDAO: DepartamentoDAO «@Inject»&lt;br&gt;- empleadoDAO: EmpleadoDAO «@Inject»&lt;br&gt;- nominaDAO: NominaDAO «@Inject»" vertex="1">
+          <mxGeometry height="90" width="295" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Svc_sep" parent="NomService" style="line;strokeColor=#9673a6;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="295" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="Svc_methods" parent="NomService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ guardarDepartamento(Departamento)&lt;br/&gt;+ actualizarDepartamento(Departamento)&lt;br/&gt;+ eliminarDepartamento(Long)&lt;br/&gt;+ listarDepartamentos(): List&lt;br/&gt;+ buscarDepartamento(Long): Departamento&lt;br/&gt;―――――――――――――――――――――&lt;br/&gt;+ guardarEmpleado(Empleado)&lt;br/&gt;+ actualizarEmpleado(Empleado)&lt;br/&gt;+ eliminarEmpleado(Long)&lt;br/&gt;+ listarEmpleados(): List&lt;br/&gt;+ buscarEmpleado(Long): Empleado&lt;br/&gt;―――――――――――――――――――――&lt;br/&gt;+ calcularYGuardarNomina(Empleado)&lt;br/&gt;+ listarNominas(): List&lt;br/&gt;+ listarNominasPorEmpleado(Long)&lt;br/&gt;+ eliminarNomina(Long)&lt;br/&gt;―――――――――――――――――――――&lt;br/&gt;- validarDuplicadosEmpleado(Empleado)" vertex="1">
+          <mxGeometry height="288" width="295" y="138" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_bean" parent="1" style="text;html=1;strokeColor=none;fillColor=#fff2cc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontColor=#7d6608;" value="&lt;b&gt;bean&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="160" x="1425" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NomBean" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="NominaBean" vertex="1">
+          <mxGeometry height="300" width="280" x="1365" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="NomBean_fields" parent="NomBean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- empleado: Empleado&lt;br/&gt;- departamentoSeleccionadoId: Long&lt;br/&gt;- nominaResultado: Nomina&lt;br/&gt;- empleadoEditando: Empleado&lt;br/&gt;- nominaService: NominaService «@Inject»" vertex="1">
+          <mxGeometry height="90" width="280" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NomBean_sep" parent="NomBean" style="line;strokeColor=#d6b656;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="280" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="NomBean_methods" parent="NomBean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ init()&lt;br/&gt;+ calcular()&lt;br/&gt;+ limpiar()&lt;br/&gt;+ prepararEdicion(Empleado)&lt;br/&gt;+ guardarEdicion()&lt;br/&gt;+ eliminarEmpleado(Empleado)&lt;br/&gt;+ cancelarEdicion()&lt;br/&gt;+ eliminarNomina(Long)&lt;br/&gt;+ getListaEmpleados(): List&lt;br/&gt;+ getListaDepartamentos(): List&lt;br/&gt;+ getListaNominas(): List" vertex="1">
+          <mxGeometry height="158" width="280" y="138" as="geometry" />
+        </mxCell>
+        <mxCell id="DepBean" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="DepartamentoBean" vertex="1">
+          <mxGeometry height="255" width="280" x="1365" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="DepBean_fields" parent="DepBean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="- departamento: Departamento&lt;br/&gt;- departamentoEditando: Departamento&lt;br/&gt;- nominaService: NominaService «@Inject»" vertex="1">
+          <mxGeometry height="60" width="280" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DepBean_sep" parent="DepBean" style="line;strokeColor=#d6b656;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="280" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="DepBean_methods" parent="DepBean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="+ init()&lt;br/&gt;+ guardar()&lt;br/&gt;+ prepararEdicion(Departamento)&lt;br/&gt;+ guardarEdicion()&lt;br/&gt;+ eliminar(Departamento)&lt;br/&gt;+ cancelarEdicion()&lt;br/&gt;+ getListaDepartamentos(): List" vertex="1">
+          <mxGeometry height="143" width="280" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_view" parent="1" style="text;html=1;strokeColor=none;fillColor=#f0e6ff;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontColor=#4a0072;" value="&lt;b&gt;«layer: view (Facelets)»&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="220" x="1720" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Plantilla" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f0e6ff;strokeColor=#9673a6;fontSize=11;" value="plantillaBase.xhtml" vertex="1">
+          <mxGeometry height="195" width="270" x="1710" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Plantilla_inserts" parent="Plantilla" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="«ui:insert» zonas:&lt;br/&gt;- titulo (en h:head)&lt;br/&gt;- estilos (en h:head)&lt;br/&gt;- contenido (en h:body)" vertex="1">
+          <mxGeometry height="65" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Plantilla_sep" parent="Plantilla" style="line;strokeColor=#9673a6;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="270" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="Plantilla_fixed" parent="Plantilla" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="Secciones fijas:&lt;br/&gt;- Encabezado (logo + titulo sistema)&lt;br/&gt;- Menu navegacion (6 enlaces)&lt;br/&gt;- Pie de pagina&lt;br/&gt;Recursos: Bootstrap 5 CDN" vertex="1">
+          <mxGeometry height="78" width="270" y="113" as="geometry" />
+        </mxCell>
+        <mxCell id="Index" parent="1" style="swimlane;fontStyle=1;align=center;startSize=35;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" value="index.html" vertex="1">
+          <mxGeometry height="90" width="270" x="1710" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="Index_desc" parent="Index" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="Pagina de inicio (HTML puro)&lt;br/&gt;Lista de enlaces a los modulos&lt;br/&gt;No usa la plantilla Facelets" vertex="1">
+          <mxGeometry height="52" width="270" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="MenuXhtml" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f0e6ff;strokeColor=#9673a6;fontSize=11;" value="menu.xhtml" vertex="1">
+          <mxGeometry height="105" width="270" x="1710" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="Menu_desc" parent="MenuXhtml" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="Pagina de menu principal&lt;br/&gt;Tarjetas: Registrar y Calcular,&lt;br/&gt;Empleados registrados&lt;br/&gt;Bean: NominaBean" vertex="1">
+          <mxGeometry height="62" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="RegistroXhtml" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f0e6ff;strokeColor=#9673a6;fontSize=11;" value="registro.xhtml" vertex="1">
+          <mxGeometry height="120" width="270" x="1710" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="Registro_desc" parent="RegistroXhtml" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="Formulario registro empleado&lt;br/&gt;Campos: cc, nombres, apellidos,&lt;br/&gt;telefono, correo, salario, dias, dpto&lt;br/&gt;Comprobante de nomina&lt;br/&gt;Bean: NominaBean" vertex="1">
+          <mxGeometry height="77" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GestionXhtml" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f0e6ff;strokeColor=#9673a6;fontSize=11;" value="gestion.xhtml" vertex="1">
+          <mxGeometry height="115" width="270" x="1710" y="785" as="geometry" />
+        </mxCell>
+        <mxCell id="Gestion_desc" parent="GestionXhtml" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="CRUD de empleados&lt;br/&gt;Tabla con edicion inline&lt;br/&gt;Acciones: Editar, Eliminar&lt;br/&gt;Panel edicion con selector dpto&lt;br/&gt;Bean: NominaBean" vertex="1">
+          <mxGeometry height="72" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DeptosXhtml" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f0e6ff;strokeColor=#9673a6;fontSize=11;" value="departamentos.xhtml" vertex="1">
+          <mxGeometry height="115" width="270" x="1710" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="Deptos_desc" parent="DeptosXhtml" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="CRUD de departamentos&lt;br/&gt;Layout: formulario + tabla&lt;br/&gt;Acciones: Crear, Editar, Eliminar&lt;br/&gt;Validacion: no eliminar con empleados&lt;br/&gt;Bean: DepartamentoBean" vertex="1">
+          <mxGeometry height="72" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="HistorialXhtml" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f0e6ff;strokeColor=#9673a6;fontSize=11;" value="historial.xhtml" vertex="1">
+          <mxGeometry height="115" width="270" x="1710" y="1115" as="geometry" />
+        </mxCell>
+        <mxCell id="Historial_desc" parent="HistorialXhtml" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="Historial de nominas persistidas&lt;br/&gt;Tabla: fecha, empleado, dpto,&lt;br/&gt;conceptos, neto a pagar&lt;br/&gt;Accion: Eliminar nomina&lt;br/&gt;Bean: NominaBean" vertex="1">
+          <mxGeometry height="72" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NominaXhtml" parent="1" style="swimlane;fontStyle=1;align=center;startSize=40;fillColor=#f0e6ff;strokeColor=#9673a6;fontSize=11;" value="nomina.xhtml" vertex="1">
+          <mxGeometry height="115" width="270" x="1710" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="NominaXhtml_desc" parent="NominaXhtml" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;html=1;fontSize=10;" value="Version PrimeFaces del formulario&lt;br/&gt;Componentes: p:inputText, p:spinner,&lt;br/&gt;p:selectOneMenu, p:dataTable&lt;br/&gt;AJAX con update=@form&lt;br/&gt;Bean: NominaBean" vertex="1">
+          <mxGeometry height="72" width="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_herencia" edge="1" parent="1" source="Empleado" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=0;strokeColor=#6c8ebf;fontStyle=2;fontSize=10;" target="Persona" value="hereda">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_dep_emp" edge="1" parent="1" source="Departamento" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#82b366;fontSize=10;" target="Empleado" value="1                    *">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="290" />
+              <mxPoint x="210" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_emp_nom" edge="1" parent="1" source="Empleado" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#82b366;fontSize=10;" target="Nomina" value="1                    *">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="335" y="440" />
+              <mxPoint x="335" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_depdao_dep" edge="1" parent="1" source="DepDAO" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d79b00;fontSize=10;" target="Departamento" value="«usa»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_empdao_emp" edge="1" parent="1" source="EmpDAO" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d79b00;fontSize=10;" target="Empleado" value="«usa»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="825" y="310" />
+              <mxPoint x="280" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_nomdao_nom" edge="1" parent="1" source="NomDAO" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d79b00;fontSize=10;" target="Nomina" value="«usa»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_depdao_jpa" edge="1" parent="1" source="DepDAO" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#b85450;fontSize=10;" target="JPAUtil" value="«usa»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="180" />
+              <mxPoint x="980" y="952.4999999999998" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_empdao_jpa" edge="1" parent="1" source="EmpDAO" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#b85450;fontSize=10;" target="JPAUtil" value="«usa»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="450" />
+              <mxPoint x="680" y="952.4999999999998" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_nomdao_jpa" edge="1" parent="1" source="NomDAO" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#b85450;fontSize=10;" target="JPAUtil" value="«usa»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_svc_empdao" edge="1" parent="1" source="NomService" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="EmpDAO" value="«@Inject»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_svc_nomdao" edge="1" parent="1" source="NomService" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="NomDAO" value="«@Inject»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1158" y="680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_nombean_svc" edge="1" parent="1" source="NomBean" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="NomService" value="«@Inject»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_depbean_svc" edge="1" parent="1" source="DepBean" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="NomService" value="«@Inject»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_menu_tpl" edge="1" parent="1" source="MenuXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="Plantilla" value="«ui:composition»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2100" y="512" />
+              <mxPoint x="2100" y="178" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_reg_tpl" edge="1" parent="1" source="RegistroXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="Plantilla" value="«ui:composition»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2080" y="675" />
+              <mxPoint x="2080" y="178" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_ges_tpl" edge="1" parent="1" source="GestionXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="Plantilla" value="«ui:composition»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2060" y="842.4999999999998" />
+              <mxPoint x="2060" y="177.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_dep_tpl" edge="1" parent="1" source="DeptosXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="Plantilla" value="«ui:composition»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2040" y="1007.4999999999998" />
+              <mxPoint x="2040" y="177.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_his_tpl" edge="1" parent="1" source="HistorialXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="Plantilla" value="«ui:composition»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2020" y="1172.4999999999998" />
+              <mxPoint x="2020" y="177.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_nom_tpl" edge="1" parent="1" source="NominaXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#9673a6;fontSize=10;" target="Plantilla" value="«ui:composition»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2000" y="1337.5" />
+              <mxPoint x="2000" y="177.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_menu_nbean" edge="1" parent="1" source="MenuXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="NomBean" value="#{nominaBean}">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1845" y="420" />
+              <mxPoint x="1505" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_reg_nbean" edge="1" parent="1" source="RegistroXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="NomBean" value="#{nominaBean}">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1670" y="675" />
+              <mxPoint x="1670" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_ges_nbean" edge="1" parent="1" source="GestionXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="NomBean" value="#{nominaBean}">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1350" y="842" />
+              <mxPoint x="1350" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_dep_dbean" edge="1" parent="1" source="DeptosXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="DepBean" value="#{departamentoBean}">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_his_nbean" edge="1" parent="1" source="HistorialXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="NomBean" value="#{nominaBean}">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1660" y="1172" />
+              <mxPoint x="1660" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel_nom_nbean" edge="1" parent="1" source="NominaXhtml" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d6b656;fontSize=10;" target="NomBean" value="#{nominaBean}">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1690" y="1338" />
+              <mxPoint x="1690" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

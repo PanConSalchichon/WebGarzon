@@ -1,317 +1,233 @@
 <!DOCTYPE html>
-<!--
-    registro.xhtml
-    Vista principal del calculo de nomina.
-
-    Responsabilidades:
-      - Capturar los datos del empleado mediante un formulario JSF estandar.
-      - Mostrar el resultado del calculo en un panel que aparece al calcular.
-      - Validar campos obligatorios con required="true" de JSF.
-      - Delegar el calculo al NominaBean mediante commandButton.
-
-    Bean utilizado: #{nominaBean} (NominaBean - @ViewScoped)
-    No usa PrimeFaces; usa unicamente componentes h: estandar de JSF.
--->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="jakarta.faces.facelets">
 
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Nomina - Registrar y Calcular</title>
-    <!-- Bootstrap 5 para layout y estilos -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-    <style>
-        /* Fondo general */
-        body { background-color: #f8f9fa; }
+<ui:composition template="/WEB-INF/templates/plantillaBase.xhtml">
 
-        /* Barra superior */
-        .app-header {
-            background: #fff;
-            border-bottom: 1px solid #dee2e6;
-            padding: 14px 0;
-            margin-bottom: 2rem;
-        }
-        .app-header h1 {
-            font-size: 1.1rem; font-weight: 600;
-            color: #198754; margin: 0;
-        }
-        .app-header p { font-size: 0.78rem; color: #6c757d; margin: 0; }
+    <ui:define name="titulo">Nomina - Registrar y Calcular</ui:define>
 
-        /* Logo cuadrado verde */
-        .logo-box {
-            width: 38px; height: 38px; background: #198754;
-            border-radius: 8px; display: flex; align-items: center;
-            justify-content: center; color: #fff;
-            font-size: 1.1rem; font-weight: bold;
-        }
+    <ui:define name="estilos">
+        <style>
+            .form-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                padding: 2rem;
+            }
+            .field-label {
+                display: block;
+                font-size: 0.82rem;
+                font-weight: 500;
+                color: #495057;
+                margin-bottom: 4px;
+            }
+            .field-input {
+                width: 100%;
+                padding: 0.375rem 0.75rem;
+                font-size: 0.9rem;
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                background-color: #fff;
+                color: #212529;
+                line-height: 1.5;
+                box-sizing: border-box;
+            }
+            .field-input:focus {
+                border-color: #198754;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+            }
+            .field-error {
+                font-size: 0.78rem;
+                color: #dc3545;
+                margin-top: 3px;
+                display: block;
+            }
+            .resultado-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .resultado-header {
+                background: #198754;
+                color: #fff;
+                padding: 1rem 1.5rem;
+            }
+            .resultado-header h5 { margin: 0; font-size: 1rem; font-weight: 600; }
+            .resultado-header p  { margin: 0; font-size: 0.78rem; opacity: 0.85; }
+            .concepto-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 1.5rem;
+                border-bottom: 1px solid #f0f0f0;
+                font-size: 0.9rem;
+            }
+            .concepto-row:last-child { border-bottom: none; }
+            .concepto-row .concepto-label { color: #495057; }
+            .concepto-row .concepto-valor { font-weight: 500; }
+            .concepto-row.positivo .concepto-valor { color: #198754; }
+            .concepto-row.descuento .concepto-valor { color: #dc3545; }
+            .neto-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #f0faf4;
+                border-top: 1px solid #b7e4c7;
+                padding: 1rem 1.5rem;
+            }
+            .neto-row .neto-label { font-weight: 600; font-size: 0.95rem; color: #155724; }
+            .neto-row .neto-valor { font-weight: 700; font-size: 1.3rem; color: #198754; }
+            .datos-empleado {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem 1.5rem;
+                padding: 1rem 1.5rem;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid #dee2e6;
+                padding-bottom: 1rem;
+            }
+            .dato-item label {
+                display: block;
+                font-size: 0.72rem;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #6c757d;
+                margin-bottom: 2px;
+            }
+            .dato-item span { font-size: 0.88rem; font-weight: 500; color: #212529; }
+            .btn-row { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
+        </style>
+    </ui:define>
 
-        /* Migas de pan */
-        .breadcrumb-bar { font-size: 0.82rem; color: #6c757d; margin-bottom: 1.5rem; }
-        .breadcrumb-bar a { color: #198754; text-decoration: none; }
-        .breadcrumb-bar a:hover { text-decoration: underline; }
-
-        /* Tarjeta contenedora del formulario */
-        .form-card {
-            background: #fff; border: 1px solid #dee2e6;
-            border-radius: 12px; padding: 2rem;
-        }
-
-        /* Etiquetas de campo */
-        .field-label {
-            display: block; font-size: 0.82rem;
-            font-weight: 500; color: #495057; margin-bottom: 4px;
-        }
-
-        /* Inputs JSF estandar estilizados como Bootstrap */
-        .field-input {
-            width: 100%;
-            padding: 0.375rem 0.75rem;
-            font-size: 0.9rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.375rem;
-            background-color: #fff;
-            color: #212529;
-            line-height: 1.5;
-            box-sizing: border-box;
-        }
-        .field-input:focus {
-            border-color: #198754;
-            outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
-        }
-
-        /* Mensaje de error por campo */
-        .field-error { font-size: 0.78rem; color: #dc3545; margin-top: 3px; display: block; }
-
-        /* Panel de resultado de la nomina */
-        .resultado-card {
-            background: #fff; border: 1px solid #dee2e6;
-            border-radius: 12px; overflow: hidden;
-        }
-        .resultado-header {
-            background: #198754; color: #fff;
-            padding: 1rem 1.5rem;
-        }
-        .resultado-header h5 { margin: 0; font-size: 1rem; font-weight: 600; }
-        .resultado-header p  { margin: 0; font-size: 0.78rem; opacity: 0.85; }
-
-        /* Filas de la tabla de conceptos */
-        .concepto-row {
-            display: flex; justify-content: space-between;
-            align-items: center; padding: 10px 1.5rem;
-            border-bottom: 1px solid #f0f0f0; font-size: 0.9rem;
-        }
-        .concepto-row:last-child { border-bottom: none; }
-        .concepto-row .concepto-label { color: #495057; }
-        .concepto-row .concepto-valor { font-weight: 500; }
-        .concepto-row.positivo .concepto-valor { color: #198754; }
-        .concepto-row.descuento .concepto-valor { color: #dc3545; }
-
-        /* Fila resaltada del neto a pagar */
-        .neto-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #f0faf4; border-top: 1px solid #b7e4c7;
-            padding: 1rem 1.5rem; margin-top: 0;
-        }
-        .neto-row .neto-label { font-weight: 600; font-size: 0.95rem; color: #155724; }
-        .neto-row .neto-valor { font-weight: 700; font-size: 1.3rem; color: #198754; }
-
-        /* Seccion de datos del empleado dentro del resultado */
-        .datos-empleado {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 0.5rem 1.5rem; padding: 1rem 1.5rem 0;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #dee2e6; padding-bottom: 1rem;
-        }
-        .dato-item label {
-            display: block; font-size: 0.72rem; text-transform: uppercase;
-            letter-spacing: 0.04em; color: #6c757d; margin-bottom: 2px;
-        }
-        .dato-item span { font-size: 0.88rem; font-weight: 500; color: #212529; }
-
-        /* Botones */
-        .btn-row { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
-    </style>
-</h:head>
-
-<h:body>
-
-    <!-- ===== CABECERA DE LA APLICACION ===== -->
-    <div class="app-header">
-        <div class="container d-flex align-items-center gap-3">
-            <div class="logo-box">N</div>
-            <div>
-                <h1>Sistema de Nomina</h1>
-                <p>Kevin Garzon &#8212; Programacion Avanzada &#8212; Universidad Distrital 2026</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-
-        <!-- ===== MIGAS DE PAN ===== -->
-        <div class="breadcrumb-bar">
-            <a href="index.xhtml">Inicio</a> /
-            <a href="menu.xhtml">Nomina</a> /
-            Registrar y calcular
-        </div>
+    <ui:define name="contenido">
 
         <h4 class="mb-1 fw-semibold">Registrar empleado y calcular nomina</h4>
         <p class="text-muted mb-4" style="font-size:0.88rem">
             Complete todos los campos (*) y presione Calcular.
         </p>
 
-        <!--
-            h:form genera el formulario JSF.
-            id="formNomina" es necesario para que los mensajes de validacion
-            del bean puedan referenciar los componentes por su ID compuesto
-            (formNomina:telefono, formNomina:correo).
-        -->
         <h:form id="formNomina">
-
             <div class="row g-4">
 
-                <!-- ============================================================
-                     COLUMNA IZQUIERDA: Formulario de captura de datos
-                ============================================================ -->
+                <!-- COLUMNA IZQUIERDA: formulario -->
                 <div class="col-md-6">
                     <div class="form-card">
 
-                        <h6 class="fw-semibold mb-3" style="color:#198754;">
-                            Datos del empleado
-                        </h6>
-
-                        <!-- Fila: Identificacion -->
+                        <!-- Identificacion -->
                         <div class="mb-3">
-                            <label class="field-label">Identificacion *</label>
-                            <!--
-                                h:inputText enlaza el campo con la propiedad
-                                id_p del objeto empleado en el bean.
-                                required="true" activa la validacion de JSF.
-                            -->
-                            <h:inputText id="identificacion"
-                                value="#{nominaBean.empleado.id_p}"
-                                required="true"
-                                requiredMessage="La identificacion es obligatoria."
-                                styleClass="field-input"
-                                maxlength="15"/>
-                            <h:message for="identificacion" styleClass="field-error"/>
+                            <label class="field-label">Cedula de ciudadania *</label>
+                            <h:inputText id="cc"
+                                         value="#{nominaBean.empleado.cc}"
+                                         required="true"
+                                         requiredMessage="La cedula es obligatoria."
+                                         styleClass="field-input"
+                                         converterMessage="Solo se permiten numeros enteros."/>
+                            <h:message for="cc" styleClass="field-error"/>
                         </div>
 
-                        <!-- Fila: Nombres -->
+                        <!-- Nombres -->
                         <div class="mb-3">
                             <label class="field-label">Nombres *</label>
                             <h:inputText id="nombres"
-                                value="#{nominaBean.empleado.nombres}"
-                                required="true"
-                                requiredMessage="El nombre es obligatorio."
-                                styleClass="field-input"
-                                maxlength="50"/>
+                                         value="#{nominaBean.empleado.nombres}"
+                                         required="true"
+                                         requiredMessage="Los nombres son obligatorios."
+                                         styleClass="field-input"/>
                             <h:message for="nombres" styleClass="field-error"/>
                         </div>
 
-                        <!-- Fila: Apellidos -->
+                        <!-- Apellidos -->
                         <div class="mb-3">
                             <label class="field-label">Apellidos *</label>
                             <h:inputText id="apellidos"
-                                value="#{nominaBean.empleado.apellidos}"
-                                required="true"
-                                requiredMessage="Los apellidos son obligatorios."
-                                styleClass="field-input"
-                                maxlength="50"/>
+                                         value="#{nominaBean.empleado.apellidos}"
+                                         required="true"
+                                         requiredMessage="Los apellidos son obligatorios."
+                                         styleClass="field-input"/>
                             <h:message for="apellidos" styleClass="field-error"/>
                         </div>
 
-                        <!-- Fila: Telefono -->
+                        <!-- Telefono -->
                         <div class="mb-3">
                             <label class="field-label">Telefono *</label>
                             <h:inputText id="telefono"
-                                value="#{nominaBean.empleado.telefono}"
-                                required="true"
-                                requiredMessage="El telefono es obligatorio."
-                                styleClass="field-input"
-                                maxlength="10"/>
-                            <!--
-                                h:message muestra el error asociado al campo.
-                                El bean agrega mensajes con id "formNomina:telefono"
-                                que JSF enruta aqui automaticamente.
-                            -->
+                                         value="#{nominaBean.empleado.telefono}"
+                                         required="true"
+                                         requiredMessage="El telefono es obligatorio."
+                                         styleClass="field-input"/>
                             <h:message for="telefono" styleClass="field-error"/>
                         </div>
 
-                        <!-- Fila: Correo -->
+                        <!-- Correo -->
                         <div class="mb-3">
                             <label class="field-label">Correo electronico *</label>
                             <h:inputText id="correo"
-                                value="#{nominaBean.empleado.correo}"
-                                required="true"
-                                requiredMessage="El correo es obligatorio."
-                                styleClass="field-input"
-                                maxlength="80"/>
+                                         value="#{nominaBean.empleado.correo}"
+                                         required="true"
+                                         requiredMessage="El correo es obligatorio."
+                                         styleClass="field-input"/>
                             <h:message for="correo" styleClass="field-error"/>
                         </div>
 
-                        <!-- Fila: Salario basico (select) -->
+                        <!-- Salario basico -->
                         <div class="mb-3">
                             <label class="field-label">Salario basico *</label>
-                            <!--
-                                h:selectOneMenu genera un <select> HTML.
-                                Cada f:selectItem es una opcion del desplegable.
-                                El valor numerico se enlaza con salarioBasico (double).
-                            -->
                             <h:selectOneMenu id="salario"
-                                value="#{nominaBean.empleado.salarioBasico}"
-                                required="true"
-                                requiredMessage="Seleccione un salario."
-                                styleClass="field-input">
+                                             value="#{nominaBean.empleado.salarioBasico}"
+                                             required="true"
+                                             requiredMessage="Seleccione un salario."
+                                             styleClass="field-input">
                                 <f:selectItem itemLabel="Seleccione..." itemValue=""/>
-                                <f:selectItem itemLabel="$ 1.750.000" itemValue="1750000"/>
-                                <f:selectItem itemLabel="$ 2.000.000" itemValue="2000000"/>
-                                <f:selectItem itemLabel="$ 2.500.000" itemValue="2500000"/>
-                                <f:selectItem itemLabel="$ 3.000.000" itemValue="3000000"/>
-                                <f:selectItem itemLabel="$ 4.000.000" itemValue="4000000"/>
-                                <f:selectItem itemLabel="$ 5.000.000" itemValue="5000000"/>
+                                <f:selectItem itemLabel="$ 1.750.905 (1 SMMLV)" itemValue="1750905"/>
+                                <f:selectItem itemLabel="$ 2.000.000"            itemValue="2000000"/>
+                                <f:selectItem itemLabel="$ 2.500.000"            itemValue="2500000"/>
+                                <f:selectItem itemLabel="$ 3.000.000"            itemValue="3000000"/>
+                                <f:selectItem itemLabel="$ 4.000.000"            itemValue="4000000"/>
+                                <f:selectItem itemLabel="$ 5.000.000"            itemValue="5000000"/>
                             </h:selectOneMenu>
                             <h:message for="salario" styleClass="field-error"/>
                         </div>
-
-                        <!-- Fila: Dias trabajados -->
+                        
+                        <!-- Departamento -->                        
+                        <div class="mb-3">
+                            <label class="field-label">Departamento *</label>
+                            <h:selectOneMenu id="departamento"
+                                             value="#{nominaBean.departamentoSeleccionadoId}"
+                                             required="true"
+                                             requiredMessage="Seleccione un departamento."
+                                             styleClass="field-input">
+                                <f:selectItem itemLabel="Seleccione..." itemValue=""/>
+                                <f:selectItems value="#{nominaBean.listaDepartamentos}"
+                                               var="dep"
+                                               itemLabel="#{dep.nombre}"
+                                               itemValue="#{dep.id}"/>
+                            </h:selectOneMenu>
+                            <h:message for="departamento" styleClass="field-error"/>
+                        </div>
+                        
+                        <!-- Dias trabajados -->
                         <div class="mb-3">
                             <label class="field-label">Dias trabajados * (1 - 30)</label>
-                            <!--
-                                h:inputText con f:validateLongRange restringe
-                                el valor entre 1 y 30 del lado del servidor.
-                            -->
                             <h:inputText id="dias"
-                                value="#{nominaBean.empleado.diasTrabajados}"
-                                required="true"
-                                requiredMessage="Los dias trabajados son obligatorios."
-                                styleClass="field-input"
-                                maxlength="2">
+                                         value="#{nominaBean.empleado.diasTrabajados}"
+                                         required="true"
+                                         requiredMessage="Los dias trabajados son obligatorios."
+                                         styleClass="field-input">
                                 <f:validateLongRange minimum="1" maximum="30"/>
                             </h:inputText>
                             <h:message for="dias" styleClass="field-error"/>
                         </div>
 
-                        <!-- Botones de accion -->
+                        <!-- Botones -->
                         <div class="btn-row">
-                            <!--
-                                h:commandButton dispara el metodo calcular() del bean.
-                                El formulario se reenvía completo (POST) y JSF
-                                actualiza la vista con el resultado.
-                            -->
                             <h:commandButton
                                 value="Calcular"
                                 action="#{nominaBean.calcular()}"
                                 styleClass="btn btn-success"/>
-
-                            <!--
-                                immediate="true" evita que JSF ejecute las validaciones
-                                al presionar Limpiar, permitiendo resetear el formulario
-                                aunque haya campos invalidos.
-                            -->
                             <h:commandButton
                                 value="Limpiar"
                                 action="#{nominaBean.limpiar()}"
@@ -319,7 +235,7 @@
                                 styleClass="btn btn-secondary"/>
                         </div>
 
-                        <!-- Mensajes generales del bean (exito o error de negocio) -->
+                        <!-- Mensajes generales del bean -->
                         <div class="mt-3">
                             <h:messages globalOnly="true" styleClass="field-error"/>
                         </div>
@@ -327,28 +243,17 @@
                     </div>
                 </div>
 
-                <!-- ============================================================
-                     COLUMNA DERECHA: Resultado de la nomina
-                     Solo se renderiza cuando nominaResultado no es null,
-                     es decir, despues de presionar Calcular exitosamente.
-                ============================================================ -->
+                <!-- COLUMNA DERECHA: resultado -->
                 <div class="col-md-6">
 
-                    <!--
-                        rendered="#{nominaBean.nominaResultado != null}" hace que
-                        JSF incluya este bloque en el HTML solo si hay resultado.
-                        Cuando es null, el panel no existe en el DOM.
-                    -->
                     <h:panelGroup rendered="#{nominaBean.nominaResultado != null}">
                         <div class="resultado-card">
 
-                            <!-- Cabecera del comprobante -->
                             <div class="resultado-header">
                                 <h5>Comprobante de Nomina</h5>
                                 <p>Liquidacion del periodo</p>
                             </div>
 
-                            <!-- Datos del empleado en el resultado -->
                             <div class="datos-empleado">
                                 <div class="dato-item">
                                     <label>Empleado</label>
@@ -358,16 +263,12 @@
                                     </span>
                                 </div>
                                 <div class="dato-item">
-                                    <label>Identificacion</label>
-                                    <span>#{nominaBean.nominaResultado.empleado.id_p}</span>
+                                    <label>Cedula</label>
+                                    <span>#{nominaBean.nominaResultado.empleado.cc}</span>
                                 </div>
                                 <div class="dato-item">
                                     <label>Salario basico</label>
                                     <span>
-                                        <!--
-                                            f:convertNumber formatea el numero como moneda
-                                            con separador de miles.
-                                        -->
                                         $&#160;<h:outputText
                                             value="#{nominaBean.nominaResultado.empleado.salarioBasico}">
                                             <f:convertNumber pattern="###,###"/>
@@ -380,9 +281,6 @@
                                 </div>
                             </div>
 
-                            <!-- Conceptos de la liquidacion -->
-
-                            <!-- Salario devengado (proporcional a dias trabajados) -->
                             <div class="concepto-row positivo">
                                 <span class="concepto-label">Salario devengado</span>
                                 <span class="concepto-valor">
@@ -393,10 +291,6 @@
                                 </span>
                             </div>
 
-                            <!--
-                                Auxilio de transporte: solo se muestra si el valor es > 0.
-                                El servicio lo calcula como 0 cuando el salario supera 2 SMMLV.
-                            -->
                             <h:panelGroup
                                 rendered="#{nominaBean.nominaResultado.auxilioTransporte > 0}">
                                 <div class="concepto-row positivo">
@@ -410,7 +304,6 @@
                                 </div>
                             </h:panelGroup>
 
-                            <!-- Descuento salud 4% -->
                             <div class="concepto-row descuento">
                                 <span class="concepto-label">Descuento salud (4%)</span>
                                 <span class="concepto-valor">
@@ -421,7 +314,6 @@
                                 </span>
                             </div>
 
-                            <!-- Descuento pension 4% -->
                             <div class="concepto-row descuento">
                                 <span class="concepto-label">Descuento pension (4%)</span>
                                 <span class="concepto-valor">
@@ -432,7 +324,6 @@
                                 </span>
                             </div>
 
-                            <!-- Neto a pagar (destacado) -->
                             <div class="neto-row">
                                 <span class="neto-label">Neto a pagar</span>
                                 <span class="neto-valor">
@@ -443,12 +334,12 @@
                                 </span>
                             </div>
 
-                        </div><!-- fin resultado-card -->
+                        </div>
                     </h:panelGroup>
 
-                    <!-- Placeholder cuando aun no hay resultado -->
                     <h:panelGroup rendered="#{nominaBean.nominaResultado == null}">
-                        <div class="resultado-card" style="padding: 3rem; text-align:center; color:#adb5bd;">
+                        <div class="resultado-card"
+                             style="padding: 3rem; text-align:center; color:#adb5bd;">
                             <div style="font-size:2.5rem; margin-bottom:0.75rem;">&#128203;</div>
                             <p style="margin:0; font-size:0.88rem;">
                                 Complete el formulario y presione
@@ -458,13 +349,12 @@
                         </div>
                     </h:panelGroup>
 
-                </div><!-- fin col derecha -->
+                </div>
 
-            </div><!-- fin row -->
-
+            </div>
         </h:form>
 
-    </div><!-- fin container -->
+    </ui:define>
 
-</h:body>
+</ui:composition>
 </html>

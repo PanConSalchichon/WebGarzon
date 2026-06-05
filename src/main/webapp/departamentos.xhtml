@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/plantillaBase.xhtml">
+
+    <ui:define name="titulo">Nomina - Departamentos</ui:define>
+
+    <ui:define name="estilos">
+        <style>
+            /* Contenedor principal dividido en dos columnas */
+            .crud-layout {
+                display: grid;
+                grid-template-columns: 340px 1fr;
+                gap: 1.5rem;
+                align-items: start;
+            }
+
+            /* Formulario lateral izquierdo */
+            .form-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .form-card-header {
+                background: #198754;
+                color: #fff;
+                padding: 0.85rem 1.25rem;
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+            .form-card-body { padding: 1.25rem; }
+
+            .field-label {
+                display: block;
+                font-size: 0.82rem;
+                font-weight: 500;
+                color: #495057;
+                margin-bottom: 4px;
+            }
+            .field-input {
+                width: 100%;
+                padding: 0.375rem 0.75rem;
+                font-size: 0.88rem;
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                box-sizing: border-box;
+            }
+            .field-input:focus {
+                border-color: #198754;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(25,135,84,0.25);
+            }
+            .field-error {
+                font-size: 0.76rem;
+                color: #dc3545;
+                margin-top: 3px;
+                display: block;
+            }
+
+            /* Tabla de departamentos */
+            .table-card {
+                background: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .table-card-header {
+                padding: 0.85rem 1.25rem;
+                border-bottom: 1px solid #dee2e6;
+                font-weight: 600;
+                font-size: 0.95rem;
+                color: #212529;
+                background: #f8f9fa;
+            }
+
+            /* Fila en modo edicion — fondo amarillo claro */
+            .fila-editando { background: #fffbea !important; }
+        </style>
+    </ui:define>
+
+    <ui:define name="contenido">
+
+        <h4 class="mb-1 fw-semibold">Gestion de Departamentos</h4>
+        <p class="text-muted mb-4" style="font-size:0.88rem">
+            Cree, edite y elimine los departamentos de la empresa.
+        </p>
+
+        <!-- Mensajes globales -->
+        <h:messages globalOnly="true" styleClass="alert alert-info" layout="list"/>
+
+        <div class="crud-layout">
+
+            <!-- COLUMNA IZQUIERDA: formulario crear / editar -->
+            <div>
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <!-- El titulo cambia segun si hay edicion activa o no -->
+                        <h:outputText value="Nuevo Departamento"
+                                      rendered="#{departamentoBean.departamentoEditando == null}"/>
+                        <h:outputText value="Editando Departamento"
+                                      rendered="#{departamentoBean.departamentoEditando != null}"/>
+                    </div>
+                    <div class="form-card-body">
+
+                        <!-- FORMULARIO CREAR -->
+                        <h:form id="formCrear"
+                                rendered="#{departamentoBean.departamentoEditando == null}">
+                            <div class="mb-3">
+                                <label class="field-label">Nombre *</label>
+                                <h:inputText id="nombre"
+                                             value="#{departamentoBean.departamento.nombre}"
+                                             required="true"
+                                             requiredMessage="El nombre es obligatorio."
+                                             styleClass="field-input"/>
+                                <h:message for="nombre" styleClass="field-error"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="field-label">Descripcion</label>
+                                <h:inputTextarea id="descripcion"
+                                                 value="#{departamentoBean.departamento.descripcion}"
+                                                 rows="3"
+                                                 styleClass="field-input"/>
+                            </div>
+                            <h:commandButton value="Guardar"
+                                             action="#{departamentoBean.guardar()}"
+                                             styleClass="btn btn-success btn-sm"
+                                             update="formCrear formTabla"/>
+                        </h:form>
+
+                        <!-- FORMULARIO EDITAR -->
+                        <h:form id="formEditar"
+                                rendered="#{departamentoBean.departamentoEditando != null}">
+                            <div class="mb-3">
+                                <label class="field-label">Nombre *</label>
+                                <h:inputText id="nombreEdit"
+                                             value="#{departamentoBean.departamentoEditando.nombre}"
+                                             required="true"
+                                             requiredMessage="El nombre es obligatorio."
+                                             styleClass="field-input"/>
+                                <h:message for="nombreEdit" styleClass="field-error"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="field-label">Descripcion</label>
+                                <h:inputTextarea id="descripcionEdit"
+                                                 value="#{departamentoBean.departamentoEditando.descripcion}"
+                                                 rows="3"
+                                                 styleClass="field-input"/>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <h:commandButton value="Actualizar"
+                                                 action="#{departamentoBean.guardarEdicion()}"
+                                                 styleClass="btn btn-warning btn-sm"
+                                                 update="formEditar formTabla"/>
+                                <h:commandButton value="Cancelar"
+                                                 action="#{departamentoBean.cancelarEdicion()}"
+                                                 immediate="true"
+                                                 styleClass="btn btn-secondary btn-sm"
+                                                 update="formCrear formEditar formTabla"/>
+                            </div>
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: tabla de departamentos -->
+            <div>
+                <h:form id="formTabla">
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            Departamentos registrados
+                            (#{departamentoBean.listaDepartamentos.size()})
+                        </div>
+
+                        <h:panelGroup rendered="#{empty departamentoBean.listaDepartamentos}">
+                            <div class="p-4 text-center text-muted">
+                                No hay departamentos registrados aun.
+                            </div>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{not empty departamentoBean.listaDepartamentos}">
+                            <h:dataTable value="#{departamentoBean.listaDepartamentos}"
+                                         var="dep"
+                                         styleClass="table table-hover mb-0"
+                                         headerClass="table-light"
+                                         rowClasses="align-middle">
+
+                                <h:column>
+                                    <f:facet name="header">Nombre</f:facet>
+                                    <h:outputText value="#{dep.nombre}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Descripcion</f:facet>
+                                    <h:outputText value="#{dep.descripcion}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Acciones</f:facet>
+                                    <!-- Boton editar: carga el departamento en el formulario -->
+                                    <h:commandButton value="Editar"
+                                                     action="#{departamentoBean.prepararEdicion(dep)}"
+                                                     styleClass="btn btn-warning btn-sm me-1"
+                                                     update="formCrear formEditar"/>
+
+                                    <!-- Boton eliminar con confirmacion -->
+                                    <h:commandButton value="Eliminar"
+                                                     action="#{departamentoBean.eliminar(dep)}"
+                                                     styleClass="btn btn-danger btn-sm"
+                                                     update="formTabla"
+                                                     onclick="return confirm('Eliminar el departamento #{dep.nombre}?')"/>
+                                </h:column>
+
+                            </h:dataTable>
+                        </h:panelGroup>
+                    </div>
+                </h:form>
+            </div>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+</html>

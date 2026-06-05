@@ -1,33 +1,24 @@
 package nomina.bean;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
+import java.io.Serializable;
+import java.util.List;
+import nomina.model.Departamento;
 import nomina.model.Empleado;
 import nomina.model.Nomina;
 import nomina.service.NominaService;
 
 /**
- * Bean de respaldo (Backing Bean) del modulo de nomina.
+ * Bean principal del modulo de nomina.
+ * Gestiona el formulario de registro, el calculo de nomina
+ * y expone los datos a las vistas XHTML.
  *
- * Responsabilidades:
- *   - Enlazar los datos del formulario con el modelo (Empleado).
- *   - Validar formato de telefono y correo antes de persistir.
- *   - Validar duplicados de ID, correo y telefono mostrando el error
- *     en el campo especifico que lo provoca.
- *   - Delegar el calculo y guardado al NominaService.
- *   - Exponer el resultado de la nomina a la vista.
- *
- * @Named     permite referenciar este bean desde XHTML como #{nominaBean}.
- * @ViewScoped mantiene el bean vivo mientras el usuario este en la misma vista.
+ * @ViewScoped → el bean vive mientras el usuario este en la misma vista.
  */
 @Named("nominaBean")
 @ViewScoped
@@ -39,20 +30,22 @@ public class NominaBean implements Serializable {
     // Atributos enlazados a la vista
     // -----------------------------------------------------------------------
 
-    /** Objeto que recibe los datos del formulario via binding JSF. */
+    /** Empleado del formulario de registro */
     private Empleado empleado;
 
-    /** Resultado del calculo de nomina; null mientras no se haya calculado. */
+    /** Id del departamento seleccionado en el formulario */
+    private Long departamentoSeleccionadoId;
+
+    /** Resultado del ultimo calculo de nomina */
     private Nomina nominaResultado;
 
+    /** Empleado seleccionado para editar en la tabla */
+    private Empleado empleadoEditando;
+
     // -----------------------------------------------------------------------
-    // Dependencias inyectadas
+    // Dependencias
     // -----------------------------------------------------------------------
 
-    /**
-     * Servicio con la logica de negocio.
-     * CDI lo instancia e inyecta automaticamente.
-     */
     @Inject
     private NominaService nominaService;
 
@@ -60,172 +53,154 @@ public class NominaBean implements Serializable {
     // Inicializacion
     // -----------------------------------------------------------------------
 
-    /**
-     * Se ejecuta automaticamente despues de que CDI construye el bean.
-     * Inicializa el empleado vacio para que el formulario tenga un objeto
-     * al que enlazarse desde el primer render.
-     */
     @PostConstruct
     public void init() {
-        empleado = new Empleado();
+        empleado        = new Empleado();
         nominaResultado = null;
+        empleadoEditando = null;
     }
 
     // -----------------------------------------------------------------------
-    // Acciones de los botones
+    // Acciones — formulario de registro y calculo
     // -----------------------------------------------------------------------
 
     /**
-     * Accion del boton "Calcular".
-     *
-     * Flujo de validacion en tres pasos:
-     *   1. Validar formato de telefono y correo (regex).
-     *   2. Validar duplicados de ID, correo y telefono contra la lista
-     *      en memoria; cada error se asocia al campo correspondiente.
-     *   3. Si todo es valido: guardar el empleado y calcular la nomina.
+     * Accion del boton Calcular.
+     * Flujo: asignar departamento → validar formato → guardar empleado
+     *        → calcular y persistir nomina.
      */
     public void calcular() {
+        // Asignar el departamento seleccionado al empleado
+        if (departamentoSeleccionadoId == null) {
+            addError(null, "Seleccione un departamento.");
+            return;
+        }
+        Departamento dep = nominaService.buscarDepartamento(departamentoSeleccionadoId);
+        empleado.setDepartamento(dep);
 
-        // Paso 1: validaciones de formato
-        if (!validarFormato()) return;
-
-        // Paso 2: validar duplicados campo por campo
-        if (!validarDuplicados()) return;
-
-        // Paso 3: guardar y calcular
         try {
             nominaService.guardarEmpleado(empleado);
-            nominaResultado = nominaService.calcularNomina(empleado);
-
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Exito", "Nomina calculada correctamente."));
-
+            nominaResultado = nominaService.calcularYGuardarNomina(empleado);
+            addInfo(null, "Nomina calculada y guardada correctamente.");
         } catch (Exception e) {
-            // Captura cualquier error inesperado del servicio
             nominaResultado = null;
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error inesperado", e.getMessage()));
+            addError(null, e.getMessage());
         }
     }
 
     /**
-     * Accion del boton "Limpiar".
-     * Reinicia el formulario y oculta el panel de resultado.
-     * La vista usa immediate="true" para saltarse las validaciones JSF
-     * al presionar este boton.
+     * Accion del boton Limpiar.
+     * Reinicia el formulario sin validaciones (immediate=true en la vista).
      */
     public void limpiar() {
-        empleado = new Empleado();
-        nominaResultado = null;
+        empleado                  = new Empleado();
+        departamentoSeleccionadoId = null;
+        nominaResultado           = null;
     }
 
     // -----------------------------------------------------------------------
-    // Validaciones
+    // Acciones — CRUD Empleado
     // -----------------------------------------------------------------------
 
     /**
-     * Valida el formato del telefono y del correo usando expresiones regulares.
-     * Los mensajes se asocian al ID del componente en la vista para que
-     * aparezcan junto al campo correspondiente.
+     * Prepara el bean para editar un empleado seleccionado de la tabla.
+     * Carga el empleado en empleadoEditando y su departamento en el selector.
      *
-     * @return true si los formatos son correctos, false si alguno falla.
+     * @param emp Empleado seleccionado desde la vista
      */
-    private boolean validarFormato() {
-        boolean valido = true;
-        FacesContext ctx = FacesContext.getCurrentInstance();
-
-        // Validar telefono: solo digitos, entre 7 y 10 caracteres
-        String tel = empleado.getTelefono();
-        if (tel != null && !tel.trim().isEmpty() && !tel.matches("\\d{7,10}")) {
-            ctx.addMessage("formNomina:telefono",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Telefono invalido",
-                    "Solo digitos, entre 7 y 10 caracteres."));
-            valido = false;
-        }
-
-        // Validar correo: formato estandar usuario@dominio.ext
-        String correo = empleado.getCorreo();
-        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-        if (correo != null && !correo.trim().isEmpty()
-                && !Pattern.matches(emailRegex, correo)) {
-            ctx.addMessage("formNomina:correo",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Correo invalido",
-                    "Formato esperado: usuario@dominio.com"));
-            valido = false;
-        }
-
-        return valido;
+    public void prepararEdicion(Empleado emp) {
+        empleadoEditando          = emp;
+        departamentoSeleccionadoId = emp.getDepartamento().getId();
     }
 
     /**
-     * Consulta al servicio si algun campo unico ya existe en la lista.
-     * El servicio retorna una lista con los nombres de los campos duplicados
-     * ("id", "correo", "telefono") para que cada error se muestre
-     * en el campo exacto de la vista.
-     *
-     * @return true si no hay duplicados, false si se encontro al menos uno.
+     * Guarda los cambios del empleado que se esta editando.
      */
-    private boolean validarDuplicados() {
-        List<String> duplicados = nominaService.validarDuplicados(empleado);
-
-        if (duplicados.isEmpty()) return true;
-
-        FacesContext ctx = FacesContext.getCurrentInstance();
-
-        // Mostrar error en el campo de identificacion
-        if (duplicados.contains("id")) {
-            ctx.addMessage("formNomina:identificacion",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "ID duplicado",
-                    "La identificacion " + empleado.getId_p() + " ya esta registrada."));
+    public void guardarEdicion() {
+        Departamento dep = nominaService.buscarDepartamento(departamentoSeleccionadoId);
+        empleadoEditando.setDepartamento(dep);
+        try {
+            nominaService.actualizarEmpleado(empleadoEditando);
+            empleadoEditando          = null;
+            departamentoSeleccionadoId = null;
+            addInfo(null, "Empleado actualizado correctamente.");
+        } catch (Exception e) {
+            addError(null, e.getMessage());
         }
+    }
 
-        // Mostrar error en el campo de correo
-        if (duplicados.contains("correo")) {
-            ctx.addMessage("formNomina:correo",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Correo duplicado",
-                    "El correo " + empleado.getCorreo() + " ya esta registrado."));
-        }
+    /**
+     * Elimina un empleado y su historial de nominas.
+     *
+     * @param emp Empleado a eliminar
+     */
+    public void eliminarEmpleado(Empleado emp) {
+        nominaService.eliminarEmpleado(emp.getId());
+        addInfo(null, "Empleado eliminado correctamente.");
+    }
 
-        // Mostrar error en el campo de telefono
-        if (duplicados.contains("telefono")) {
-            ctx.addMessage("formNomina:telefono",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Telefono duplicado",
-                    "El telefono " + empleado.getTelefono() + " ya esta registrado."));
-        }
+    /**
+     * Elimina una nomina del historial por su id.
+     */
+    public void eliminarNomina(Long id) {
+        nominaService.eliminarNomina(id);
+        addInfo(null, "Nomina eliminada del historial.");
+    }
+    
+    /**
+     * Cancela la edicion en curso.
+     */
+    public void cancelarEdicion() {
+        empleadoEditando          = null;
+        departamentoSeleccionadoId = null;
+    }
 
-        return false;
+    // -----------------------------------------------------------------------
+    // Listas expuestas a la vista
+    // -----------------------------------------------------------------------
+
+    /** Lista de todos los empleados para la tabla de gestion */
+    public List<Empleado> getListaEmpleados() {
+        return nominaService.listarEmpleados();
+    }
+
+    /** Lista de departamentos para el selector del formulario */
+    public List<Departamento> getListaDepartamentos() {
+        return nominaService.listarDepartamentos();
+    }
+
+    /** Historial completo de nominas */
+    public List<Nomina> getListaNominas() {
+        return nominaService.listarNominas();
     }
 
     // -----------------------------------------------------------------------
     // Getters y Setters
     // -----------------------------------------------------------------------
 
-    /** Retorna el empleado actual enlazado al formulario. */
     public Empleado getEmpleado() { return empleado; }
-
-    /** Permite que JSF actualice el empleado desde la vista. */
     public void setEmpleado(Empleado empleado) { this.empleado = empleado; }
 
-    /** Retorna el resultado del ultimo calculo, o null si no se ha calculado. */
-    public Nomina getNominaResultado() { return nominaResultado; }
+    public Long getDepartamentoSeleccionadoId() { return departamentoSeleccionadoId; }
+    public void setDepartamentoSeleccionadoId(Long id) { this.departamentoSeleccionadoId = id; }
 
-    /** Permite inyectar un resultado desde tests o logica externa. */
-    public void setNominaResultado(Nomina nominaResultado) {
-        this.nominaResultado = nominaResultado;
+    public Nomina getNominaResultado() { return nominaResultado; }
+    public void setNominaResultado(Nomina nominaResultado) { this.nominaResultado = nominaResultado; }
+
+    public Empleado getEmpleadoEditando() { return empleadoEditando; }
+    public void setEmpleadoEditando(Empleado empleadoEditando) { this.empleadoEditando = empleadoEditando; }
+
+    // -----------------------------------------------------------------------
+    // Helpers privados para mensajes
+    // -----------------------------------------------------------------------
+
+    private void addError(String clientId, String mensaje) {
+        FacesContext.getCurrentInstance().addMessage(clientId,
+            new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, null));
     }
 
-    /**
-     * Retorna la lista actualizada de empleados registrados.
-     * Se llama cada vez que la vista renderiza la tabla de gestion.
-     */
-    public List<Empleado> getListaEmpleados() {
-        return nominaService.getEmpleadosRegistrados();
+    private void addInfo(String clientId, String mensaje) {
+        FacesContext.getCurrentInstance().addMessage(clientId,
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", mensaje));
     }
 }
